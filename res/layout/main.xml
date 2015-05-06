@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"  
+    android:id="@+id/mScrollView" 
+    android:layout_width="fill_parent"  
+    android:layout_height="wrap_content" 
+    android:scrollbars="vertical">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    >
+    <LinearLayout 
+		android:orientation="horizontal"
+		android:layout_width="fill_parent"
+	    android:layout_height="fill_parent"
+	    >
+		<Button
+	    android:id="@+id/openwifi"
+	    android:layout_width="wrap_content" 
+	    android:layout_height="wrap_content" 
+	    android:text="打开wifi"
+	    />
+	    <Button
+	    android:id="@+id/closewifi"
+	    android:layout_width="wrap_content" 
+	    android:layout_height="wrap_content" 
+	    android:text="关闭wifi"
+	    />
+	    <Button
+	    android:id="@+id/scanwifi"
+	    android:layout_width="wrap_content" 
+	    android:layout_height="wrap_content" 
+	    android:text="扫描wifi"
+	    />
+	</LinearLayout>
+	<LinearLayout
+	    android:orientation="horizontal"
+		android:layout_width="fill_parent"
+	    android:layout_height="fill_parent"
+	    >
+	    <Button
+	    android:id="@+id/connect"
+	    android:layout_width="wrap_content" 
+	    android:layout_height="wrap_content" 
+	    android:text="连接Wifi"
+	    />
+		<Button
+		android:id="@+id/disconnect"
+		android:layout_width="wrap_content" 
+		android:layout_height="wrap_content" 
+		android:text="断开Wifi"
+		/>
+	</LinearLayout>
+
+		<Button
+        android:id="@+id/send"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="开始数据传输" />
+		<TextView
+	    android:id="@+id/scanresult"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:text="扫描结果"
+	    />
+
+</LinearLayout>
+</ScrollView>

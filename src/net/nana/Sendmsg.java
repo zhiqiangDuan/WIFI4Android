@@ -7,10 +7,14 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.nio.channels.Selector;
 import java.util.StringTokenizer;
-
+import java.util.Iterator;  
 import org.apache.http.impl.conn.tsccm.WaitingThread;
-
+import java.nio.ByteBuffer;  
+import java.nio.channels.SelectionKey;  
+import java.nio.channels.Selector;  
+import java.nio.channels.SocketChannel;  
 import android.R.string;
 import android.app.Activity;
 import android.content.Context;
@@ -48,6 +52,7 @@ public class Sendmsg extends Activity{
 	public Main main = null;
 	public InputStream inputStream;
 	public OutputStream op = null;
+	public Selector selector = null;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -78,7 +83,9 @@ public class Sendmsg extends Activity{
 	private OnClickListener StartClickListener = new OnClickListener() {
 		@Override
 		public void onClick(View arg0) {
-			// TODO Auto-generated method stub				
+			// TODO Auto-generated method stub	
+			mThreadClient = new Thread(mRunnable);
+			mThreadClient.start();
 			if (isConnecting) 
 			{				
 				isConnecting = false;
@@ -121,6 +128,7 @@ public class Sendmsg extends Activity{
 	protected void onResume() {
 		// TODO Auto-generated method stub
 		mSocketClient = main.getSocket();
+		selector = main.getSelector();
 		if(mSocketClient == null)
 		{
 			System.out.println("Error,Please ensure that  you have opened the rechi controler and connected to the wifi");
@@ -172,17 +180,23 @@ public class Sendmsg extends Activity{
 			int count = 0;
 			byte[] buffer = new byte[256];
 			byte[] check;
+			try {
+				listen();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 			try 
 			{				
 				//连接服务器
-				mSocketClient = main.getSocket();
+				//mSocketClient = main.getSocket();
 				//取得输入、输出流
 				inputStream = mSocketClient.getInputStream();
 				op  = mSocketClient.getOutputStream();
 				recvMessageClient = "已经连接server!\n";//消息换行
-				Message msg = new Message();
-                msg.what = 1;
-				mHandler.sendMessage(msg);		
+				//Message msg = new Message();
+               // msg.what = 1;
+				//mHandler.sendMessage(msg);		
 			}
 			catch (Exception e) 
 			{
@@ -192,9 +206,16 @@ public class Sendmsg extends Activity{
 				return;
 			}			
 			//write the data to the controler
-			writeData(STR_SHAKE_HAND);
+			try {
+				listen();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			//writeData(STR_SHAKE_HAND);
 			//sleep 10ms
 			//wait10ms();
+			/*
 			while (isConnecting)
 			{
 				try
@@ -217,31 +238,65 @@ public class Sendmsg extends Activity{
 	                msg.what = 1;
 					mHandler.sendMessage(msg);
 				}
-			}
+			}*/
 		}
 	};
-	private boolean startPing(String ip){   Log.e("Ping", "startPing...");  
-    boolean success=false;  
-    Process p =null;  
-      
-     try {   
-            p = Runtime.getRuntime().exec("ping -c 1 -i 0.2 -W 1 " +ip);   
-            int status = p.waitFor();   
-            if (status == 0) {   
-                success=true;   
-            } else {   
-                success=false;    
-            }   
-            } catch (IOException e) {   
-                success=false;     
-            } catch (InterruptedException e) {   
-                success=false;     
-            }finally{  
-                p.destroy();  
-            }  
-           
-     return success;  
-} 
+	public void listen() throws IOException {  
+        // 轮询访问selector  
+        while (true)
+        {  
+            selector.select();  
+            // 获得selector中选中的项的迭代器  
+            Iterator ite = this.selector.selectedKeys().iterator();  
+            System.out.println("111111111111111111");
+            while (ite.hasNext())
+            {  
+            	System.out.println("Data comming!!!");
+                SelectionKey key = (SelectionKey) ite.next();  
+                // 删除已选的key,以防重复处理  
+                ite.remove();  
+                // 连接事件发生  
+                if (key.isConnectable())
+                {  
+                    SocketChannel channel = (SocketChannel) key  
+                            .channel();  
+                    // 如果正在连接，则完成连接  
+                    if(channel.isConnectionPending())
+                    {  
+                        channel.finishConnect();  
+                          
+                    }  
+                    // 设置成非阻塞  
+                    channel.configureBlocking(false);  
+  
+                    //在这里可以给服务端发送信息哦  
+                    channel.write(ByteBuffer.wrap(new String("向服务端发送了一条信息").getBytes()));  
+                    //在和服务端连接成功之后，为了可以接收到服务端的信息，需要给通道设置读的权限。  
+                    channel.register(this.selector, SelectionKey.OP_READ);  
+                      
+                    // 获得了可读的事件  
+                }
+                else if (key.isReadable())
+                {  
+                	Toast.makeText(mContext, "收到数据！", Toast.LENGTH_SHORT).show();
+                	readFromServer(key);  
+                }  
+  
+            } 
+        }
+	}
+        public void readFromServer(SelectionKey key) throws IOException{  
+            // 服务器可读取消息:得到事件发生的Socket通道  
+            SocketChannel channel = (SocketChannel) key.channel();  
+            // 创建读取的缓冲区  
+            ByteBuffer buffer = ByteBuffer.allocate(10);  
+            channel.read(buffer);  
+            byte[] data = buffer.array();  
+            String msg = new String(data).trim();  
+            System.out.println("服务端收到信息："+msg);  
+            ByteBuffer outBuffer = ByteBuffer.wrap(msg.getBytes());  
+            channel.write(outBuffer);// 将消息回送给客户端  
+        } 
 	Handler mHandler = new Handler()
 	{										
 		  public void handleMessage(Message msg)										
@@ -271,6 +326,8 @@ public class Sendmsg extends Activity{
 			}
 	 		return check;
 	 	}
+	 	
+	 	
 			private boolean checkSum(byte[] byt)
 			{
 				int sum = 0;
@@ -333,5 +390,5 @@ public class Sendmsg extends Activity{
 				} 
 				return baKeyword; 
 			} 
-
+	
 }

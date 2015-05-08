@@ -8,7 +8,11 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.net.InetSocketAddress;
 import java.net.Socket;
+import java.nio.channels.SelectionKey;
+import java.nio.channels.Selector;
+import java.nio.channels.SocketChannel;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -38,7 +42,7 @@ public class Main extends Activity implements OnClickListener{
 		private String mScanResult;
 		private WifiAdmin mWifiAdmin;
 	
-		
+		 private static Selector selector; //NIO selector
 		//=================================
 		public static  Socket mSocketClient = null;
 //		static BufferedReader mBufferedReaderServer	= null;
@@ -84,6 +88,11 @@ public class Main extends Activity implements OnClickListener{
 	{
 		return this.mSocketClient;
 	}
+	public Selector getSelector()
+	{
+		return this.selector;
+		
+	}
 	//将以下内部类捆绑在send按钮上，按下时跳转到Sendmsg界面
     class SendButton implements OnClickListener{
 		@Override
@@ -93,19 +102,27 @@ public class Main extends Activity implements OnClickListener{
 			String sIP = "192.168.168.103";
 			String sPort = "1234";
 			int port = Integer.parseInt(sPort);
-			try 
-			{				
-				//连接服务器
-				mSocketClient = new Socket(sIP, port);
+			try {
+				initClient(sIP,1234);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 				Intent intent = new Intent();
 				intent.setClass(Main.this, Sendmsg.class);
 				Main.this.startActivity(intent);
+			/*
+			
+			try 
+			{				
+				//连接服务器
+				
 			}
 			catch (Exception e) 
 			{
 				System.out.println(e);
 				return;
-			}			
+			}	*/		
 
 		}    	
     }
@@ -201,4 +218,19 @@ public class Main extends Activity implements OnClickListener{
 		} 
 		return baKeyword; 
 	} 
+	
+	 public void initClient(String ip,int port) throws IOException {  
+	        // 获得一个Socket通道  
+	        SocketChannel channel = SocketChannel.open();  
+	        // 设置通道为非阻塞  
+	        channel.configureBlocking(false);  
+	        // 获得一个通道管理器  
+	        this.selector = Selector.open();  
+	          
+	        // 客户端连接服务器,其实方法执行并没有实现连接，需要在listen（）方法中调  
+	        //用channel.finishConnect();才能完成连接  
+	        channel.connect(new InetSocketAddress(ip,port));  
+	        //将通道管理器和该通道绑定，并为该通道注册SelectionKey.OP_CONNECT事件。  
+	        channel.register(selector, SelectionKey.OP_CONNECT);  
+	    }  
 }

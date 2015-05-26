@@ -22,6 +22,7 @@
             android:name=".Sendmsg"
             android:label="@string/sendmsg"
         />
+        <activity android:name="ChangeData"></activity>
     </application>
 <!-- 以下是使用wifi访问网络所需的权限 -->
 	<uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />

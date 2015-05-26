@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+	<LinearLayout 
+	    android:orientation="vertical"
+	    android:layout_width="fill_parent"
+	    android:layout_height="fill_parent" >
+	    <RelativeLayout 
+	        android:id = "@+id/connectLayout"
+	        android:layout_below="@+id/clientText"
+			android:layout_width="match_parent" 		
+			android:layout_height="wrap_content" 
+			android:orientation="horizontal">		   
+			  
+			<EditText
+		         android:layout_width="wrap_content"
+		      	 android:layout_height = "wrap_content" 	
+		      	 android:hint = "请输入需要改的值"	
+		      	 android:layout_alignParentRight = "true"	      	 
+		      	 android:id = "@+id/Text1"/>
+
+			<TextView
+			    android:id="@+id/clientText"
+			    android:layout_width="fill_parent"
+			    android:layout_height="wrap_content"
+			    android:layout_alignParentLeft="true"
+			    android:layout_toLeftOf="@+id/text1"
+			    android:text="电流1：默认值"
+			    android:textSize="20sp" />
+		</RelativeLayout>
+		<RelativeLayout 
+	        android:id = "@+id/connectLayout"
+	        android:layout_below="@+id/clientText"
+			android:layout_width="match_parent" 		
+			android:layout_height="wrap_content" 
+			android:orientation="horizontal">		   
+			<EditText
+		         android:layout_width="wrap_content"
+		      	 android:layout_height = "wrap_content" 	
+		      	 android:hint = "请输入需要改的值"	
+		      	 android:layout_alignParentRight = "true"	      	 
+		      	 android:id = "@+id/Text2"/>
+
+			<TextView
+			    android:id="@+id/clientText"
+			    android:layout_width="fill_parent"
+			    android:layout_height="wrap_content"
+			    android:layout_alignParentLeft="true"
+			    android:layout_toLeftOf="@+id/Text2"
+			    android:text="电流1：默认值"
+			    android:textSize="20sp" />
+		</RelativeLayout>
+		<RelativeLayout 
+	        android:id = "@+id/connectLayout"
+	        android:layout_below="@+id/clientText"
+			android:layout_width="match_parent" 		
+			android:layout_height="wrap_content" 
+			android:orientation="horizontal">		   
+			  
+			<EditText
+		         android:layout_width="wrap_content"
+		      	 android:layout_height = "wrap_content" 	
+		      	 android:hint = "请输入需要改的值"	
+		      	 android:layout_alignParentRight = "true"	      	 
+		      	 android:id = "@+id/Text3"/>
+
+			<TextView
+			    android:id="@+id/clientText"
+			    android:layout_width="fill_parent"
+			    android:layout_height="wrap_content"
+			    android:layout_alignParentLeft="true"
+			    android:layout_toLeftOf="@+id/Text3"
+			    android:text="电流1：默认值"
+			    android:textSize="20sp" />
+		</RelativeLayout>
+		<RelativeLayout 
+	        android:id = "@+id/connectLayout"
+	        android:layout_below="@+id/clientText"
+			android:layout_width="match_parent" 		
+			android:layout_height="wrap_content" 
+			android:orientation="horizontal">		   
+			  
+			<EditText
+		         android:layout_width="wrap_content"
+		      	 android:layout_height = "wrap_content" 	
+		      	 android:hint = "请输入需要改的值"	
+		      	 android:layout_alignParentRight = "true"	      	 
+		      	 android:id = "@+id/Text4"/>
+
+			<TextView
+			    android:id="@+id/clientText"
+			    android:layout_width="fill_parent"
+			    android:layout_height="wrap_content"
+			    android:layout_alignParentLeft="true"
+			    android:layout_toLeftOf="@+id/Text4"
+			    android:text="电流1：默认值"
+			    android:textSize="20sp" />
+		</RelativeLayout>
+		<RelativeLayout 
+	        android:id = "@+id/connectLayout"
+	        android:layout_below="@+id/clientText"
+			android:layout_width="match_parent" 		
+			android:layout_height="wrap_content" 
+			android:orientation="horizontal">		   
+			  
+			<EditText
+		         android:layout_width="wrap_content"
+		      	 android:layout_height = "wrap_content" 	
+		      	 android:hint = "请输入需要改的值"	
+		      	 android:layout_alignParentRight = "true"	      	 
+		      	 android:id = "@+id/Text5"/>
+
+			<TextView
+			    android:id="@+id/clientText"
+			    android:layout_width="fill_parent"
+			    android:layout_height="wrap_content"
+			    android:layout_alignParentLeft="true"
+			    android:layout_toLeftOf="@+id/Text5"
+			    android:text="电流1：默认值"
+			    android:textSize="20sp" />
+		</RelativeLayout>
+		<RelativeLayout 
+	        android:id = "@+id/connectLayout"
+	        android:layout_below="@+id/clientText"
+			android:layout_width="match_parent" 		
+			android:layout_height="wrap_content" 
+			android:orientation="horizontal">		   
+			  
+			<EditText
+		         android:layout_width="wrap_content"
+		      	 android:layout_height = "wrap_content" 	
+		      	 android:hint = "请输入需要改的值"	
+		      	 android:layout_alignParentRight = "true"	      	 
+		      	 android:id = "@+id/Text6"/>
+
+			<TextView
+			    android:id="@+id/clientText"
+			    android:layout_width="fill_parent"
+			    android:layout_height="wrap_content"
+			    android:layout_alignParentLeft="true"
+			    android:layout_toLeftOf="@+id/Text6"
+			    android:text="电流1：默认值"
+			    android:textSize="20sp" />
+		</RelativeLayout>
+		<RelativeLayout 
+	        android:id = "@+id/connectLayout"
+	        android:layout_below="@+id/clientText"
+			android:layout_width="match_parent" 		
+			android:layout_height="wrap_content" 
+			android:orientation="horizontal">		   
+			  
+			<EditText
+		         android:layout_width="wrap_content"
+		      	 android:layout_height = "wrap_content" 	
+		      	 android:hint = "请输入需要改的值"	
+		      	 android:layout_alignParentRight = "true"	      	 
+		      	 android:id = "@+id/Text7"/>
+
+			<TextView
+			    android:id="@+id/clientText"
+			    android:layout_width="fill_parent"
+			    android:layout_height="wrap_content"
+			    android:layout_alignParentLeft="true"
+			    android:layout_toLeftOf="@+id/Text7"
+			    android:text="电流1：默认值"
+			    android:textSize="20sp" />
+		</RelativeLayout>
+	   <Button android:id="@+id/butOK"
+				android:layout_width="fill_parent" 
+				android:layout_height="wrap_content" 
+				android:text="确定"/>
+	</LinearLayout>
+</LinearLayout>

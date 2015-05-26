@@ -15,6 +15,8 @@ import java.nio.channels.Selector;
 import java.nio.channels.SocketChannel;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Message;
@@ -99,30 +101,33 @@ public class Main extends Activity implements OnClickListener{
 		public void onClick(View v) {
 			// TODO Auto-generated method stub
 			
-			String sIP = "192.168.168.103";
-			String sPort = "1234";
-			int port = Integer.parseInt(sPort);
-			try {
-				initClient(sIP,1234);
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-				Intent intent = new Intent();
-				intent.setClass(Main.this, Sendmsg.class);
-				Main.this.startActivity(intent);
-			/*
-			
+			String sIP = "192.168.4.1";
+			String sPort = "8080";
+
 			try 
 			{				
 				//连接服务器
-				
+				mSocketClient = new Socket(sIP, 8080);
+				  Intent intent = new Intent();
+				intent.setClass(Main.this, Sendmsg.class);
+				Main.this.startActivity(intent);
 			}
 			catch (Exception e) 
 			{
-				System.out.println(e);
+				new AlertDialog.Builder(Main.this).setTitle("下位机错误")//设置对话框标题  
+				  
+			     .setMessage("下位机WIFI断线，请重启控制器重新连接")//设置显示的内容  
+			  
+			     .setPositiveButton("确定",new DialogInterface.OnClickListener() {//添加确定按钮  
+			         @Override  
+			         public void onClick(DialogInterface dialog, int which) {//确定按钮的响应事件  
+			  
+				         // TODO Auto-generated method stub  
+			             //finish();  
+			         } 
+			     }).show();//在按键响应事件中显示此对话框  
 				return;
-			}	*/		
+			}			
 
 		}    	
     }

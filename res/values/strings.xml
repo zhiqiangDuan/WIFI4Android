@@ -2,7 +2,8 @@
 <resources>
 
     <string name="hello">Hello World, Main!</string>
-    <string name="app_name">Mywifi2</string>
+    <string name="app_name">吉翔电动车控制器</string>
     <string name="sendmsg">hellomsg</string>
+    <string name="txtCredits"><a href="http://www.taobao.com">吉翔官方淘宝店</a></string>
 
 </resources>

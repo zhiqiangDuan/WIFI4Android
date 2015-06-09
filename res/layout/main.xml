@@ -1,75 +1,109 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"  
-    android:id="@+id/mScrollView" 
-    android:layout_width="fill_parent"  
-    android:layout_height="wrap_content" 
-    android:scrollbars="vertical">
-<LinearLayout 
-    android:orientation="vertical"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    >
-    <LinearLayout 
-		android:orientation="horizontal"
-		android:layout_width="fill_parent"
-	    android:layout_height="fill_parent"
-	    >
-		<Button
-	    android:id="@+id/openwifi"
-	    android:layout_width="wrap_content" 
-	    android:layout_height="wrap_content" 
-	    android:text="打开wifi"
-	    />
-	    <Button
-	    android:id="@+id/closewifi"
-	    android:layout_width="wrap_content" 
-	    android:layout_height="wrap_content" 
-	    android:text="关闭wifi"
-	    />
-	    <Button
-	    android:id="@+id/scanwifi"
-	    android:layout_width="wrap_content" 
-	    android:layout_height="wrap_content" 
-	    android:text="扫描wifi"
-	    />
-	</LinearLayout>
-	<LinearLayout
-	    android:orientation="horizontal"
-		android:layout_width="fill_parent"
-	    android:layout_height="fill_parent"
-	    >
-	    <Button
-	    android:id="@+id/connect"
-	    android:layout_width="wrap_content" 
-	    android:layout_height="wrap_content" 
-	    android:text="连接Wifi"
-	    />
-		<Button
-		android:id="@+id/disconnect"
-		android:layout_width="wrap_content" 
-		android:layout_height="wrap_content" 
-		android:text="断开Wifi"
-		/>
-	</LinearLayout>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background" >
+	<TextView
+	        android:id="@+id/textView1"
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content"
+	        android:layout_centerVertical="true"
+	        android:text="欢迎使用睿驰控制器。本程序用于睿驰控制器的参数和功能调试以及电机匹配工作。正式上路骑行请遵守国家有关规范，本公司不承担法律责任。" />
 
-		<Button
-        android:id="@+id/send"
+	<Button
+	    android:id="@+id/serial"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_above="@+id/layoutInfo"
+	    android:layout_centerHorizontal="true"
+	    android:gravity="center"
+	    android:text="吉翔系列控制器"
+	    android:textColor="@android:color/white"
+	    android:textSize="22sp" />
+
+    <LinearLayout
+        android:id="@+id/layoutInfo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="开始数据传输" />
-
-		<Button
-		    android:id="@+id/butshake"
-		    android:layout_width="wrap_content"
-		    android:layout_height="wrap_content"
-		    android:text="握手" />
-
-		<TextView
-	    android:id="@+id/scanresult"
-	    android:layout_width="fill_parent"
-	    android:layout_height="wrap_content"
-	    android:text="扫描结果"
-	    />
-
-</LinearLayout>
-</ScrollView>
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="40dp"
+        android:layout_marginLeft="28dp"
+        android:orientation="vertical" >
+        <LinearLayout
+	        android:id="@+id/layoutNum"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:orientation="horizontal" >
+	        <TextView
+		        android:id="@+id/textViewNum"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:text="客服电话"
+		        android:textSize="22sp" />
+	        <TextView
+		        android:id="@+id/textViewNum2"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:text="32425435435" 
+		        android:textSize="22sp"/>
+        </LinearLayout>
+               <LinearLayout
+	        android:id="@+id/layoutQQ"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:orientation="horizontal" >
+	        <TextView
+		        android:id="@+id/textViewQQ"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:text="QQ"
+		        android:textSize="22sp"/>
+	        <TextView
+		        android:id="@+id/textViewQQ2"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:text="32425435435"
+		        android:textSize="22sp"/>
+        </LinearLayout>
+        <LinearLayout
+	        android:id="@+id/layoutWeixin"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:orientation="horizontal" >
+	        <TextView
+		        android:id="@+id/textViewWeixin"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:text="微信"
+		        android:textSize="22sp"/>
+	        <TextView
+		        android:id="@+id/textViewWeixin2"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:text="32425435435"
+		        android:textSize="22sp"/>
+        </LinearLayout>
+        <LinearLayout
+	        android:id="@+id/layoutTaobao"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:orientation="horizontal" >
+	        <TextView
+		        android:id="@+id/textViewTaobao"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:text="淘宝"
+		        android:textSize="22sp"/>
+	        
+	        <TextView
+		        android:id="@+id/textViewTaobao2"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:autoLink="web"
+        		android:linksClickable="true"
+        		android:text="@string/txtCredits"
+		        android:textSize="17sp"/>
+        </LinearLayout>
+        
+    </LinearLayout>
+</RelativeLayout>

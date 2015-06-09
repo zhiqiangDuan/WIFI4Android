@@ -25,20 +25,7 @@
 	        android:layout_below="@+id/clientText"
 			android:layout_width="match_parent" 		
 			android:layout_height="wrap_content" 
-			android:orientation="horizontal">		   
-			   
-			<Button android:id="@+id/connectButton"
-				android:layout_width="wrap_content" 
-				android:layout_height="wrap_content" 				
-				android:layout_alignParentRight = "true"
-				android:text="开始连接"/>
-			<EditText
-		         android:layout_width="fill_parent"
-		      	 android:layout_height = "wrap_content" 	
-		      	 android:hint = "请输入IP地址"		      	 
-		      	 android:layout_alignParentLeft = "true"
-		      	 android:layout_toLeftOf="@+id/connectButton" 
-		      	 android:id = "@+id/ipText"/>
+			android:orientation="horizontal">
 		</RelativeLayout> 		
 		
 		<RelativeLayout 
@@ -68,16 +55,18 @@
 			    android:layout_alignParentTop="true"
 			    android:layout_centerHorizontal="true"
 			    android:text="发    送" />
-			
 		</RelativeLayout>
-	</RelativeLayout> 
-
-	<TextView
-			android:id="@+id/recvMsg"
-			android:layout_width="fill_parent"
+		
+	</RelativeLayout>
+<TextView 
+	        android:id = "@+id/showText"
+	        android:layout_width="fill_parent"
 			android:layout_height="wrap_content"
-			android:layout_alignParentBottom = "true"
-			android:textSize="15sp"
-			android:text="信息：\n"/>
+	        android:text="手机扮演客户端："/>
+	 <ListView
+	     android:id="@+id/lv_bleList"
+	     android:layout_width="fill_parent"
+	     android:layout_height="268dp" />
+
 </LinearLayout>
 </ScrollView>

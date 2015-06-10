@@ -5,68 +5,74 @@
     android:layout_height="wrap_content" 
     android:scrollbars="vertical" >
 
-<LinearLayout 
-    android:orientation="vertical"
+<LinearLayout
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent" >
-    <RelativeLayout 
-        android:id = "@+id/clientLayout"
-        android:layout_marginTop="5dip" 
-		android:layout_width="match_parent" 		
-		android:layout_height="wrap_content" 
-		android:orientation="vertical">
-	    <TextView 
-	        android:id = "@+id/clientText"
-	        android:layout_width="fill_parent"
-			android:layout_height="wrap_content"
-	        android:text="手机扮演客户端："/>	        
-	    <RelativeLayout 
-	        android:id = "@+id/connectLayout"
-	        android:layout_below="@+id/clientText"
-			android:layout_width="match_parent" 		
-			android:layout_height="wrap_content" 
-			android:orientation="horizontal">
-		</RelativeLayout> 		
-		
-		<RelativeLayout 
-	        android:id = "@+id/sendLayout"
-	        android:layout_below="@+id/connectLayout"
-			android:layout_width="match_parent" 		
-			android:layout_height="wrap_content" 
-			android:orientation="horizontal">		   
-			   
-			<Button android:id="@+id/searchData"
-				android:layout_width="wrap_content" 
-				android:layout_height="wrap_content" 
-				android:text="查询数据"/>
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
 
-			<Button
-			    android:id="@+id/changeData"
-			    android:layout_width="wrap_content"
-			    android:layout_height="wrap_content"
-			    android:layout_alignParentRight="true"
-			    android:layout_alignParentTop="true"
-			    android:text="修改数据" />
+    <RelativeLayout
+        android:id="@+id/clientLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dip"
+        android:orientation="vertical" >
 
-			<Button
-			    android:id="@+id/sendData"
-			    android:layout_width="wrap_content"
-			    android:layout_height="wrap_content"
-			    android:layout_alignParentTop="true"
-			    android:layout_centerHorizontal="true"
-			    android:text="发    送" />
-		</RelativeLayout>
-		
-	</RelativeLayout>
-<TextView 
-	        android:id = "@+id/showText"
-	        android:layout_width="fill_parent"
-			android:layout_height="wrap_content"
-	        android:text="手机扮演客户端："/>
-	 <ListView
-	     android:id="@+id/lv_bleList"
-	     android:layout_width="fill_parent"
-	     android:layout_height="268dp" />
+        <TextView
+            android:id="@+id/clientText"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="手机扮演客户端：" />
 
+        <RelativeLayout
+            android:id="@+id/connectLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/clientText"
+            android:orientation="horizontal" >
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/sendLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/connectLayout"
+            android:orientation="horizontal" >
+
+            <Button
+                android:id="@+id/searchData"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="查询数据" />
+
+            <Button
+                android:id="@+id/changeData"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                android:text="修改数据" />
+
+            <Button
+                android:id="@+id/sendData"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:text="发    送" />
+        </RelativeLayout>
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/showText"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="手机扮演客户端：" />
+
+    <ListView
+        android:id="@+id/lv_bleList"
+        android:layout_width="fill_parent"
+        android:layout_height="300dp"
+        android:layout_weight="24124193498988544.00" />
 </LinearLayout>
+
 </ScrollView>

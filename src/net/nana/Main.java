@@ -18,6 +18,7 @@ import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.DialogInterface;
@@ -25,6 +26,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.Message;
 import android.view.GestureDetector;
 import android.view.GestureDetector.OnGestureListener;
@@ -43,12 +45,10 @@ public class Main<DeviceListAdapter> extends Activity implements OnClickListener
 		private TextView scanResult;
 		private Button serialBut = null;
 		private ArrayAdapter<String> wifilistArray;
-		//==========================
-		
 		private DeviceListAdapter mDevListAdapter;
 		private String mScanResult;
 		private WifiAdmin mWifiAdmin;
-	
+		private ProgressDialog progressDialog;
 		private TextView tv_QQ;
 		private TextView tv_Number;
 		private TextView tv_Taobao;
@@ -58,33 +58,16 @@ public class Main<DeviceListAdapter> extends Activity implements OnClickListener
 		 private static Selector selector; //NIO selector
 		//=================================
 		public static  Socket mSocketClient = null;
+		private boolean isConnected ;
 @Override
 		protected void onResume() {
 			// TODO Auto-generated method stub
 			super.onResume();
-			String sIP = "192.168.4.1";
-			String sPort = "8080";
-			try 
-			{				
-				//连接服务器
-				mSocketClient = new Socket(sIP, 8080);
-				//Intent intent = new Intent();
-				//intent.setClass(Main.this, Sendmsg.class);
-				//Main.this.startActivity(intent);
-			}
-			catch (Exception e) 
-			{
-				new AlertDialog.Builder(Main.this).setTitle("WIFI未连接")//设置对话框标题  
-			     .setMessage("下位机WIFI断线，请重启控制器重新连接")//设置显示的内容  
-			     .setPositiveButton("确定",new DialogInterface.OnClickListener() {//添加确定按钮  
-			         @Override  
-			         public void onClick(DialogInterface dialog, int which) {//确定按钮的响应事件  
-				         // TODO Auto-generated method stub  
-			             //finish();  
-			         } 
-			     }).show();//在按键响应事件中显示此对话框  
-				return;
-			}	
+			isConnected = false;
+			Thread connectThread = new Thread(connect);
+			connectThread.start();
+			Thread timerThread = new Thread(timer);
+			timerThread.start();
 		}
 		//static BufferedReader mBufferedReaderServer	= null;
 		//static PrintWriter mPrintWriterServer = null;
@@ -114,6 +97,92 @@ public class Main<DeviceListAdapter> extends Activity implements OnClickListener
     /**
 	 * 按钮等控件的初始化
 	 */
+    private Runnable connect	= new Runnable() 
+    {
+
+		@Override
+		public void run() {
+			// TODO Auto-generated method stub
+			String sIP = "192.168.4.1";
+			String sPort = "8080";
+			try 
+			{				
+				//连接服务器
+				//progressDialog = ProgressDialog.show(this, "连接中...",
+				//		"正在连接控制器，请稍后...");
+				mSocketClient = new Socket(sIP, 8080);
+				isConnected = true;
+			}
+			catch (Exception e) 
+			{
+				isConnected = true;
+				Message msg = new Message();
+                msg.what = 1;
+                mHandler.sendMessage(msg);
+				return;
+			}	
+		}
+	};
+	private Runnable timer	= new Runnable() 
+    {
+		int count = 50;
+		@Override
+		public void run() {
+			// TODO Auto-generated method stub
+			while(count > 0)
+			{
+				wait10ms();
+				if(isConnected) //收到数据
+				{
+					//System.out.println("Received!");
+					//flagShake = false; 
+					//收到消息，给UI线程发个message
+					break;
+				}
+				count--;
+			}
+			if(count == 0)
+			{
+				Message msg = new Message();
+                msg.what = 2;
+                mHandler.sendMessage(msg);
+			}
+		}
+	};
+	Handler mHandler = new Handler()
+	{	
+		  public void handleMessage(Message msg)										
+		  {											
+			  super.handleMessage(msg);		
+			  switch (msg.what) {
+			case 1:
+				new AlertDialog.Builder(Main.this).setTitle("WIFI未连接")//设置对话框标题  
+			     .setMessage("下位机WIFI断线，请重启控制器重新连接")//设置显示的内容  
+			     .setPositiveButton("确定",new DialogInterface.OnClickListener() {//添加确定按钮  
+			         @Override  
+			         public void onClick(DialogInterface dialog, int which) {//确定按钮的响应事件  
+				         // TODO Auto-generated method stub  
+			             finish();  
+			         } 
+			     }).show();//在按键响应事件中显示此对话框  
+				break;
+			case 2:
+				new AlertDialog.Builder(Main.this).setTitle("请先连接至控制器WIFI")//设置对话框标题  
+			     .setMessage("请先连接控制器的WIFI,然后重启该APP。\nWIFI名称:AI-THINKER-xxx")//设置显示的内容  
+			     .setPositiveButton("确定",new DialogInterface.OnClickListener() {//添加确定按钮  
+			         @Override  
+			         public void onClick(DialogInterface dialog, int which) {//确定按钮的响应事件  
+				         // TODO Auto-generated method stub  
+			             finish();  
+			         } 
+			     }).show();//在按键响应事件中显示此对话框  
+				break;
+			default:
+				break;
+			}
+			  
+		  }
+	};
 	public Socket getSocket()
 	{
 		return this.mSocketClient;
@@ -121,7 +190,6 @@ public class Main<DeviceListAdapter> extends Activity implements OnClickListener
 	public Selector getSelector()
 	{
 		return this.selector;
-		
 	}
 	//将以下内部类捆绑在send按钮上，按下时跳转到Sendmsg界面
     class SendButton implements OnClickListener{
@@ -242,4 +310,13 @@ public class Main<DeviceListAdapter> extends Activity implements OnClickListener
 		// TODO Auto-generated method stub
 		return false;
 	}  
+	private void wait10ms()
+	{
+		try {
+			Thread.sleep(10);
+		} catch (InterruptedException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+	}
 }

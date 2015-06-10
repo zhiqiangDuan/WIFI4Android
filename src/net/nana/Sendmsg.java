@@ -12,6 +12,8 @@ import java.nio.channels.Selector;
 import java.util.StringTokenizer;
 import java.util.Iterator;  
 import org.apache.http.impl.conn.tsccm.WaitingThread;
+
+
 import java.nio.ByteBuffer;  
 import java.nio.channels.SelectionKey;  
 import java.nio.channels.Selector;  
@@ -21,6 +23,7 @@ import android.R.integer;
 import android.R.string;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -49,10 +52,13 @@ public class Sendmsg extends Activity implements OnClickListener{
 	private TextView recvMsg;
 	private ListView lv_bleList;	
 	private Context mContext;
+	private ProgressDialog progressDialog;
 	private boolean isConnecting = false;
 	private final String STR_SHAKE_HAND ="55020057";
 	private final String STR_SEARCH = "5518006D";
 	private final String STR_SEARCH2 = "5519006E";
+	private final String STR_SEARCH3 = "551A006F";
+	private final String[] SERCH_CMDS = {"5518006D","5519006E","551A006F","551B0070"};
 	private final String STR_DATA_CHANGE = "5518200000D5560017025807DF0081475E43CD23AF2E6301C834A201C831112000001486";
 	private final int SEARCH_DATA = 1;
 	private final int SEND_DATA = 2;
@@ -79,7 +85,7 @@ public class Sendmsg extends Activity implements OnClickListener{
 	private String dataChangedS = null;
 	private String[] motorArgs = null;
 	//默认电机参数
-	private final int MAXWORKVOLTAGGE = 24;
+	private final int MAXWORKVOLTAGE = 24;
 	private final int REWORKVOLTAGE = 24;
 	private final int MINWORKVOLTAGE = 24;
 	//电机参数
@@ -92,9 +98,6 @@ public class Sendmsg extends Activity implements OnClickListener{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.sendmsg);
         mContext = this;
-        
-
-        System.out.println("========================");
         recvMsg = (TextView)findViewById(R.id.showText);
         changeData = (Button)findViewById(R.id.changeData);
         changeData.setOnClickListener(Sendmsg.this);
@@ -116,8 +119,35 @@ public class Sendmsg extends Activity implements OnClickListener{
         //recvMsg.setMovementMethod(ScrollingMovementMethod.getInstance());
         dataChangedB = new byte[36];
         motorArgs = new String[3];
-        
         main = new Main();
+        String sIP = "192.168.4.1";
+		String sPort = "8080";
+		mSocketClient = main.getSocket();
+		selector = main.getSelector();
+		//连接服务器
+		mSocketClient = main.getSocket();
+		//取得输入、输出流
+		try {
+			inputStream = mSocketClient.getInputStream();
+			op  = mSocketClient.getOutputStream();
+			if(mSocketClient == null)
+			{
+				mSocketClient = new Socket(sIP, 8080);
+				System.out.println("Error,Please ensure that  you have opened the rechi controler and connected to the wifi");
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		progressDialog = ProgressDialog.show(Sendmsg.this, "Read the current data",
+				"Reading,Please wait!");
+		flagShake = false;
+		flagOver = false;
+		checkFlag = SEARCH_DATA;
+		searchThread = new Thread(searchRun);
+		searchThread.start();
+		statusThread = new Thread(backrun);
+		statusThread.start();
 	}
 	//连接服务器按钮监听器
 	private OnClickListener StartClickListener = new OnClickListener() {
@@ -152,7 +182,6 @@ public class Sendmsg extends Activity implements OnClickListener{
 			//dataRecv[14] = (byte)(a & 0xff);
 			dataToBeSend();
 			dataRecv[35] = setCheckSum(dataRecv);
-			System.out.println("-----------22222----------\n");
 			flagShake = false;
 			flagOver = false;
 			changeThread = new Thread(changeRun);
@@ -163,6 +192,8 @@ public class Sendmsg extends Activity implements OnClickListener{
 		case R.id.searchData:
 			// start the search thread
 			// start the backrun thread
+			progressDialog = ProgressDialog.show(Sendmsg.this, "Read the current data",
+					"Reading,Please wait!");
 			flagShake = false;
 			flagOver = false;
 			checkFlag = SEARCH_DATA;
@@ -202,7 +233,10 @@ public class Sendmsg extends Activity implements OnClickListener{
 	}
 	@Override
 	protected void onResume() {
+		/*
 		// TODO Auto-generated method stub
+		String sIP = "192.168.4.1";
+		String sPort = "8080";
 		mSocketClient = main.getSocket();
 		selector = main.getSelector();
 		//连接服务器
@@ -211,15 +245,25 @@ public class Sendmsg extends Activity implements OnClickListener{
 		try {
 			inputStream = mSocketClient.getInputStream();
 			op  = mSocketClient.getOutputStream();
+			if(mSocketClient == null)
+			{
+				mSocketClient = new Socket(sIP, 8080);
+				System.out.println("Error,Please ensure that  you have opened the rechi controler and connected to the wifi");
+			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		if(mSocketClient == null)
-		{
-			System.out.println("Error,Please ensure that  you have opened the rechi controler and connected to the wifi");
-		}
+		progressDialog = ProgressDialog.show(Sendmsg.this, "Read the current data",
+				"Reading,Please wait!");
+		flagShake = false;
+		flagOver = false;
+		checkFlag = SEARCH_DATA;
+		searchThread = new Thread(searchRun);
+		searchThread.start();
+		statusThread = new Thread(backrun);
+		statusThread.start();
+		*/
 		super.onResume();
 	}
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -273,11 +317,11 @@ public class Sendmsg extends Activity implements OnClickListener{
 			temp = Integer.parseInt(dataString[0]);
 			if(temp > 120 || temp < 24)
 			{
-				temp = MAXWORKVOLTAGGE;
+				temp = MAXWORKVOLTAGE;
 			}
 		}
 		else {
-			temp = MAXWORKVOLTAGGE;
+			temp = MAXWORKVOLTAGE;
 		}
 		tempH = temp >> 8;
 		tempL = temp & 0xff;
@@ -288,11 +332,11 @@ public class Sendmsg extends Activity implements OnClickListener{
 			temp = Integer.parseInt(dataString[1]);
 			if(temp > 120 || temp < 24)
 			{
-				temp = MAXWORKVOLTAGGE;
+				temp = MAXWORKVOLTAGE;
 			}
 		}
 		else {
-			temp = MAXWORKVOLTAGGE;
+			temp = MAXWORKVOLTAGE;
 		}
 		tempH = temp >> 8;
 		tempL = temp & 0xff;
@@ -316,12 +360,17 @@ public class Sendmsg extends Activity implements OnClickListener{
 	}
 	private Runnable	searchRun	= new Runnable()
 	{
-		int count = 0;
-		byte[] buffer = new byte[256];
-		byte[] check;
 		@Override
 		public void run() {
 			// TODO Auto-generated method stub
+			secrchData();
+		}
+	};
+	private void  secrchData() {
+		int count = 0;
+		byte[] buffer = new byte[256];
+		byte[] check;
+
 			writeData(STR_SHAKE_HAND);
 			try
 			{
@@ -337,21 +386,25 @@ public class Sendmsg extends Activity implements OnClickListener{
 						snedMessage(0);
 					}	
 			}	
-				Thread.sleep(300); // wait for 300ms
-				writeData(STR_SEARCH);  // write the search cmd!
-				if((count = inputStream.read(buffer))> 0)
+				//Thread.sleep(300); // wait for 300ms
+				for(int i = 0;i <SERCH_CMDS.length;i++)
 				{
-					check = cpoyData(buffer,count);
-					if(checkSum(check))
+					writeData(SERCH_CMDS[i]);  // write the search cmd!
+					if((count = inputStream.read(buffer))> 0)
 					{
-						dataRecv = check;
-						flagOver = true;
-						snedMessage(3);
-					}
-					else {
-						snedMessage(0);
+						check = cpoyData(buffer,count);
+						if(checkSum(check))
+						{
+							dataRecv = check;
+							snedMessage(3+i);
+						}
+						else {
+							snedMessage(0);
+						}
 					}
 				}
+				flagOver = true;
+				snedMessage(3);
 			}
 			catch (Exception e)
 			{
@@ -360,8 +413,7 @@ public class Sendmsg extends Activity implements OnClickListener{
                 msg.what = 1;
 				mHandler.sendMessage(msg);
 			}
-		}
-	};
+	}
 	//线程:监听服务器发来的消息
 	private Runnable	backrun	= new Runnable()
 	{
@@ -432,16 +484,12 @@ public class Sendmsg extends Activity implements OnClickListener{
 							snedMessage(0);
 						}
 					}
-					System.out.println("recv"+dataRecv.length);
 					op.write(dataRecv);
-					System.out.println("222");
 					if((count = inputStream.read(buffer))> 0)
 					{
-						System.out.println("333");
 						check = cpoyData(buffer,count);
 						if(checkSum(check))
 						{
-							System.out.println("444");
 							flagOver = true;
 							snedMessage(3);
 						}
@@ -454,7 +502,6 @@ public class Sendmsg extends Activity implements OnClickListener{
 				}
 				catch (Exception e)
 				{
-					//"接收异常:" + e.getMessage() + "\n";
 					Message msg = new Message();
 	                msg.what = 1;
 					mHandler.sendMessage(msg);
@@ -544,30 +591,25 @@ public class Sendmsg extends Activity implements OnClickListener{
 					//recvMsg.append("Client: "+recvMessageClient);
 					break;
 				  case 2:
-					recvMsg.append("握手成功!\n");
+					recvMsg.setText("握手成功!\n");
 					break;
 				  case 3:
-					 recvMsg.append("读取成功！\n");
-					 //解析返回的数据
-					 //显示返回的数据
+					 recvMsg.setText("读取成功！\n");
 					 analysisData();
 					 lv_bleList.setAdapter(new ArrayAdapter<String>(Sendmsg.this,android.R.layout.simple_list_item_1, motorArgs));
+					 progressDialog.dismiss();
 					 break;
-					 /*
-					 for(int i = 3;i < dataRecv.length - 1;i++)
-					 {
-						 tempH = dataRecv[i] & 0xff;
-						 tempL = dataRecv[i+1] & 0xff;
-						 temp = (tempH << 8) | tempL;
-						 showString  = " "+temp + " "+ ((i-1)/2-1) ;
-						 i++;
-						 recvMsg.append(showString+"\n");
-						// showString += dataRecv[i] & 0xff; 
-						// showString+=" ";
-					 }*/
-					// recvMsg.append(showString);
+				  case 4:
+					  recvMsg.setText("第二条");
+					  break;
 				  case 5:
-					  recvMsg.append("数据修改成功！");
+					  recvMsg.setText("第三条");
+					  break;
+				  case 6:
+					  recvMsg.setText("第四条");
+					  break;
+				  case 100:
+					  recvMsg.setText("数据修改成功！");
 					break;
 			}
 		  }									

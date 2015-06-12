@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView  xmlns:android="http://schemas.android.com/apk/res/android"  
-    android:id="@+id/mScrollView" 
-    android:layout_width="fill_parent"  
-    android:layout_height="wrap_content" 
-    android:scrollbars="vertical" >
 
-<LinearLayout
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"  
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical" >
@@ -17,17 +13,10 @@
         android:layout_marginTop="5dip"
         android:orientation="vertical" >
 
-        <TextView
-            android:id="@+id/clientText"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="手机扮演客户端：" />
-
         <RelativeLayout
             android:id="@+id/connectLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/clientText"
             android:orientation="horizontal" >
         </RelativeLayout>
 
@@ -67,12 +56,8 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="手机扮演客户端：" />
-
     <ListView
-        android:id="@+id/lv_bleList"
+        android:id="@+id/test"
         android:layout_width="fill_parent"
-        android:layout_height="300dp"
-        android:layout_weight="24124193498988544.00" />
+        android:layout_height="match_parent"/>
 </LinearLayout>
-
-</ScrollView>

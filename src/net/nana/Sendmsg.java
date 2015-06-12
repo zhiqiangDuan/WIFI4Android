@@ -9,6 +9,10 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.nio.channels.Selector;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.StringTokenizer;
 import java.util.Iterator;  
 import org.apache.http.impl.conn.tsccm.WaitingThread;
@@ -23,6 +27,7 @@ import android.R.integer;
 import android.R.string;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ListActivity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -38,6 +43,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -50,16 +56,19 @@ public class Sendmsg extends Activity implements OnClickListener{
 	private Button changeData;
 	private EditText sendMsg;
 	private TextView recvMsg;
-	private ListView lv_bleList;	
+	private ListView lv_bleList;
+	private ListView lv_test;
 	private Context mContext;
 	private ProgressDialog progressDialog;
 	private boolean isConnecting = false;
+	private List<Map<String, Object>> list;  // list 用来存放 用来存放listview需要现实的内容
 	private final String STR_SHAKE_HAND ="55020057";
 	private final String STR_SEARCH = "5518006D";
 	private final String STR_SEARCH2 = "5519006E";
 	private final String STR_SEARCH3 = "551A006F";
 	private final String[] SERCH_CMDS = {"5518006D","5519006E","551A006F","551B0070"};
 	private final String STR_DATA_CHANGE = "5518200000D5560017025807DF0081475E43CD23AF2E6301C834A201C831112000001486";
+	private int[][] pages;
 	private final int SEARCH_DATA = 1;
 	private final int SEND_DATA = 2;
 	private Thread mThreadClient = null;
@@ -97,6 +106,10 @@ public class Sendmsg extends Activity implements OnClickListener{
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.sendmsg);
+		lv_test = (ListView) findViewById(R.id.test);
+		list = new ArrayList<Map<String, Object>>();
+		
+		
         mContext = this;
         recvMsg = (TextView)findViewById(R.id.showText);
         changeData = (Button)findViewById(R.id.changeData);
@@ -105,19 +118,10 @@ public class Sendmsg extends Activity implements OnClickListener{
         searchData.setOnClickListener(Sendmsg.this);
         sendData = (Button)findViewById(R.id.sendData);
         sendData.setOnClickListener(Sendmsg.this);
-        lv_bleList = (ListView) findViewById(R.id.lv_bleList);
+       // lv_bleList = (ListView) findViewById(R.id.lv_bleList);
 		String[] strs = new String[] {"first", "second", "third"};
-		//lv_bleList.setAdapter(new ArrayAdapter<String>(this,
-         //       android.R.layout.simple_list_item_1, strs));
-        // sendMsg= (EditText)findViewById(R.id.sendMsg);	   
-        //sendMsg.setText("up");
-               
-        //sendButton= (Button)findViewById(R.id.sendData);
-        //sendButton.setOnClickListener(SendClickListenerClient);
-        //为文本添加setMovementMethod方法
-        //recvMsg= (TextView)findViewById(R.id.recvMsg);   
-        //recvMsg.setMovementMethod(ScrollingMovementMethod.getInstance());
-        dataChangedB = new byte[36];
+		pages = new int[4][16];
+
         motorArgs = new String[3];
         main = new Main();
         String sIP = "192.168.4.1";
@@ -141,6 +145,7 @@ public class Sendmsg extends Activity implements OnClickListener{
 		}
 		progressDialog = ProgressDialog.show(Sendmsg.this, "Read the current data",
 				"Reading,Please wait!");
+		//该activity启动的时候先默认读取控制器数据
 		flagShake = false;
 		flagOver = false;
 		checkFlag = SEARCH_DATA;
@@ -148,6 +153,33 @@ public class Sendmsg extends Activity implements OnClickListener{
 		searchThread.start();
 		statusThread = new Thread(backrun);
 		statusThread.start();
+	}
+	private List<Map<String, Object>> getData() {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("title", "G1");
+		map.put("info1", "google 1");
+		map.put("info2", "google 2");
+		map.put("info3", "google 3");
+		map.put("info4", "google 4");
+		list.add(map);
+
+		map = new HashMap<String, Object>();
+		map.put("title", "G2");
+		map.put("info1", "google 1");
+		map.put("info2", "google 2");
+		map.put("info3", "google 3");
+		//map.put("info4", "google 4");
+		list.add(map);
+
+		map = new HashMap<String, Object>();
+		map.put("title", "G3");
+		map.put("info1", "google 1");
+		map.put("info2", "google 2");
+		map.put("info3", "google 3");
+		//map.put("info4", "google 4");
+		list.add(map);
+		
+		return list;
 	}
 	//连接服务器按钮监听器
 	private OnClickListener StartClickListener = new OnClickListener() {
@@ -165,17 +197,6 @@ public class Sendmsg extends Activity implements OnClickListener{
 		// TODO Auto-generated method stub
 		switch (v.getId()) {
 		case R.id.sendData:
-			System.out.println("----------11111-----------\n");
-			/*
-			if(resultData == null)
-			{
-				resultData = "24";
-			}
-			int a = Integer.parseInt(resultData);
-			if(a < 24 || a > 120)
-			{
-				showDialog("请输入有效的数据");
-			}*/
 			dataRecv[0] = 0x55;
 			dataRecv[1] = 0x28;
 			//dataRecv[13] = 0;
@@ -231,46 +252,10 @@ public class Sendmsg extends Activity implements OnClickListener{
 		// TODO Auto-generated method stub
 		super.onDestroy();
 	}
-	@Override
-	protected void onResume() {
-		/*
-		// TODO Auto-generated method stub
-		String sIP = "192.168.4.1";
-		String sPort = "8080";
-		mSocketClient = main.getSocket();
-		selector = main.getSelector();
-		//连接服务器
-		mSocketClient = main.getSocket();
-		//取得输入、输出流
-		try {
-			inputStream = mSocketClient.getInputStream();
-			op  = mSocketClient.getOutputStream();
-			if(mSocketClient == null)
-			{
-				mSocketClient = new Socket(sIP, 8080);
-				System.out.println("Error,Please ensure that  you have opened the rechi controler and connected to the wifi");
-			}
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		progressDialog = ProgressDialog.show(Sendmsg.this, "Read the current data",
-				"Reading,Please wait!");
-		flagShake = false;
-		flagOver = false;
-		checkFlag = SEARCH_DATA;
-		searchThread = new Thread(searchRun);
-		searchThread.start();
-		statusThread = new Thread(backrun);
-		statusThread.start();
-		*/
-		super.onResume();
-	}
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		resultData = data.getExtras().getString("str");//得到新Activity 关闭后返回的数据
 		dataString = resultData.split(":"); 
 		System.out.println(dataString[0]+" "+dataString[1]+" "+dataString[2]);
-		
     }
 	/*
 	 * 这个里面有两个按钮，连接按钮获取IP与port端口号。 然后打开一个runnable线程
@@ -379,6 +364,7 @@ public class Sendmsg extends Activity implements OnClickListener{
 					check = cpoyData(buffer,count);
 					if(checkSum(check))
 					{
+						
 						flagShake = true;
 						snedMessage(2);
 					}
@@ -386,7 +372,6 @@ public class Sendmsg extends Activity implements OnClickListener{
 						snedMessage(0);
 					}	
 			}	
-				//Thread.sleep(300); // wait for 300ms
 				for(int i = 0;i <SERCH_CMDS.length;i++)
 				{
 					writeData(SERCH_CMDS[i]);  // write the search cmd!
@@ -395,6 +380,7 @@ public class Sendmsg extends Activity implements OnClickListener{
 						check = cpoyData(buffer,count);
 						if(checkSum(check))
 						{
+							getDataFromPage(i,check);
 							dataRecv = check;
 							snedMessage(3+i);
 						}
@@ -413,6 +399,18 @@ public class Sendmsg extends Activity implements OnClickListener{
                 msg.what = 1;
 				mHandler.sendMessage(msg);
 			}
+	}
+	void getDataFromPage(int count,byte[] data)
+	{
+		int dataLength = 16;
+		int tempH;
+		int tempL;
+		for(int i = 0;i <dataLength;i++)
+		{
+			tempH = data[3+2*i] &0xff;
+			tempL = data[3+2*i+1]&0xff;
+			pages[count][i] = (tempH << 6)|tempL;
+		}
 	}
 	//线程:监听服务器发来的消息
 	private Runnable	backrun	= new Runnable()
@@ -588,25 +586,23 @@ public class Sendmsg extends Activity implements OnClickListener{
 					break;
 				  case 1:  // 超时！
 					  showDialog("超时！");
-					//recvMsg.append("Client: "+recvMessageClient);
 					break;
 				  case 2:
 					recvMsg.setText("握手成功!\n");
 					break;
 				  case 3:
-					 recvMsg.setText("读取成功！\n");
-					 analysisData();
-					 lv_bleList.setAdapter(new ArrayAdapter<String>(Sendmsg.this,android.R.layout.simple_list_item_1, motorArgs));
-					 progressDialog.dismiss();
+					  setTheFirstPage();
 					 break;
 				  case 4:
-					  recvMsg.setText("第二条");
+					  setTheSecondPage();
 					  break;
 				  case 5:
-					  recvMsg.setText("第三条");
+					  setTheThirdPage();
 					  break;
 				  case 6:
-					  recvMsg.setText("第四条");
+					  setTheForthPage();
+					  showListView();
+					  progressDialog.dismiss();
 					  break;
 				  case 100:
 					  recvMsg.setText("数据修改成功！");
@@ -614,6 +610,57 @@ public class Sendmsg extends Activity implements OnClickListener{
 			}
 		  }									
 	 };
+	 private void showListView()
+	 {
+		 SimpleAdapter adapter = new SimpleAdapter(this,list,R.layout.vlist,
+					new String[]{"title","info1","info2","info3","info4"},
+					new int[]{R.id.title,R.id.info1,R.id.info2,R.id.info3,R.id.info4});
+			lv_test.setAdapter(adapter);
+	 }
+	 private List<Map<String, Object>> setTheFirstPage()
+	 {
+		 Map<String, Object> map = new HashMap<String, Object>();
+			map.put("title", "电机参数");
+			map.put("info1", "HALL类型"+pages[0][0]);
+			map.put("info2", "相移量"+pages[0][1]);
+			map.put("info3", "极对数:"+pages[0][2]);
+			map.put("info4", "最高转速:"+pages[0][3]);
+			list.add(map);
+		 return list;
+	 }
+	 private List<Map<String, Object>> setTheSecondPage()
+	 {
+		 Map<String, Object> map = new HashMap<String, Object>();
+			map.put("title", "电机参数");
+			map.put("info1", "HALL类型"+pages[0][0]);
+			map.put("info2", "相移量"+pages[0][1]);
+			map.put("info3", "极对数:"+pages[0][2]);
+			map.put("info4", "最高转速:"+pages[0][3]);
+			list.add(map);
+		 return list;
+	 }
+	 private List<Map<String, Object>> setTheThirdPage()
+	 {
+		 Map<String, Object> map = new HashMap<String, Object>();
+			map.put("title", "电机参数");
+			map.put("info1", "HALL类型"+pages[0][0]);
+			map.put("info2", "相移量"+pages[0][1]);
+			map.put("info3", "极对数:"+pages[0][2]);
+			//map.put("info4", "最高转速:"+pages[0][3]);
+			list.add(map);
+		 return list;
+	 }
+	 private List<Map<String, Object>> setTheForthPage()
+	 {
+		 Map<String, Object> map = new HashMap<String, Object>();
+			map.put("title", "电机参数");
+			map.put("info1", "HALL类型"+pages[0][0]);
+			map.put("info2", "相移量"+pages[0][1]);
+			map.put("info3", "极对数:"+pages[0][2]);
+			map.put("info4", "最高转速:"+pages[0][3]);
+			list.add(map);
+		 return list;
+	 }
 	 private void analysisData()
 	 {
 		String showString = null;

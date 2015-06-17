@@ -36,9 +36,10 @@ public class ChangeData extends Activity implements OnClickListener {
 		s3 = (t3.getText().length() != 0) ?t3.getText().toString():"null";
 		s4 = (t4.getText().length() != 0) ?t4.getText().toString():"null";
 		String data = s1+":"+s2+":"+s3+":"+s4;
+		System.out.println(data+"    111111");
 		Intent intent=new Intent();  
         intent.setClass(ChangeData.this, Sendmsg.class);  
-        intent.putExtra("str", data);
+        intent.putExtra("str1", data);
         setResult(RESULT_OK, intent);
 		ChangeData.this.finish();
 	}

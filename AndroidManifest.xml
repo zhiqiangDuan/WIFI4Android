@@ -23,6 +23,22 @@
             android:label="@string/sendmsg"
         />
         <activity android:name="ChangeData"></activity>
+        <activity android:name="Change1"></activity>
+        <activity android:name="Change2"></activity>
+        <activity android:name="Change3"></activity>
+        <activity android:name="Change4"></activity>
+        <activity android:name="Change5"></activity>
+        <activity android:name="Change6"></activity>
+        <activity android:name="Change7"></activity>
+        <activity android:name="Change8"></activity>
+        <activity android:name="Change9"></activity>
+        <activity android:name="Change10"></activity>
+        <activity android:name="Change11"></activity>
+        <activity android:name="Change12"></activity>
+        <activity android:name="Change13"></activity>
+        <activity android:name="Change14"></activity>
+        <activity android:name="Change15"></activity>
+        
     </application>
 <!-- 以下是使用wifi访问网络所需的权限 -->
 	<uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />

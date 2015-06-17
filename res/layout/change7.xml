@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+	<LinearLayout 
+	    android:orientation="vertical"
+	    android:layout_width="fill_parent"
+	    android:layout_height="fill_parent" >
+	    <RelativeLayout 
+	        android:id = "@+id/connectLayout"
+	        android:layout_below="@+id/clientText"
+			android:layout_width="match_parent" 		
+			android:layout_height="wrap_content" 
+			android:orientation="horizontal">		   
+			  
+			<EditText
+		         android:layout_width="wrap_content"
+		      	 android:layout_height = "wrap_content" 	
+		      	 android:hint = "50~1200                "	
+		      	 android:layout_alignParentRight = "true"	
+     	 
+		      	 android:id = "@+id/Text1"/>
+
+			<TextView
+			    android:id="@+id/clientText"
+			    android:layout_width="fill_parent"
+			    android:layout_height="wrap_content"
+			    android:layout_alignParentLeft="true"
+			    android:layout_toLeftOf="@+id/text1"
+			    android:text="加速度"
+			    android:textSize="20sp" />
+		</RelativeLayout>
+		<RelativeLayout 
+	        android:id = "@+id/connectLayout"
+	        android:layout_below="@+id/clientText"
+			android:layout_width="match_parent" 		
+			android:layout_height="wrap_content" 
+			android:orientation="horizontal">		   
+			<EditText
+		         android:layout_width="wrap_content"
+		      	 android:layout_height = "wrap_content" 	
+		      	 android:hint = "100~1200              "	
+		      	 android:layout_alignParentRight = "true"	      	 
+		      	 android:id = "@+id/Text2"/>
+
+			<TextView
+			    android:id="@+id/clientText"
+			    android:layout_width="fill_parent"
+			    android:layout_height="wrap_content"
+			    android:layout_alignParentLeft="true"
+			    android:layout_toLeftOf="@+id/Text2"
+			    android:text="电流1：默认值"
+			    android:textSize="20sp" />
+		</RelativeLayout>
+		<RelativeLayout 
+	        android:id = "@+id/connectLayout"
+	        android:layout_below="@+id/clientText"
+			android:layout_width="match_parent" 		
+			android:layout_height="wrap_content" 
+			android:orientation="horizontal">
+		</RelativeLayout>
+		<RelativeLayout 
+	        android:id = "@+id/connectLayout"
+	        android:layout_below="@+id/clientText"
+			android:layout_width="match_parent" 		
+			android:layout_height="wrap_content" 
+			android:orientation="horizontal">
+		</RelativeLayout>
+		<RelativeLayout 
+	        android:id = "@+id/connectLayout"
+	        android:layout_below="@+id/clientText"
+			android:layout_width="match_parent" 		
+			android:layout_height="wrap_content" 
+			android:orientation="horizontal">
+		</RelativeLayout>
+		<RelativeLayout 
+	        android:id = "@+id/connectLayout"
+	        android:layout_below="@+id/clientText"
+			android:layout_width="match_parent" 		
+			android:layout_height="wrap_content" 
+			android:orientation="horizontal">
+		</RelativeLayout>
+		<RelativeLayout 
+	        android:id = "@+id/connectLayout"
+	        android:layout_below="@+id/clientText"
+			android:layout_width="match_parent" 		
+			android:layout_height="wrap_content" 
+			android:orientation="horizontal">
+		</RelativeLayout>
+	   <Button android:id="@+id/butOK"
+				android:layout_width="fill_parent" 
+				android:layout_height="wrap_content" 
+				android:text="确定"/>
+	</LinearLayout>
+</LinearLayout>

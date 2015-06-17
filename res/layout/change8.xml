@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+	<LinearLayout 
+	    android:orientation="vertical"
+	    android:layout_width="fill_parent"
+	    android:layout_height="fill_parent" >
+	    <RelativeLayout 
+	        android:id = "@+id/connectLayout"
+	        android:layout_below="@+id/clientText"
+			android:layout_width="match_parent" 		
+			android:layout_height="wrap_content" 
+			android:orientation="horizontal">		   
+			  
+			<EditText
+		         android:layout_width="wrap_content"
+		      	 android:layout_height = "wrap_content" 	
+		      	 android:hint = "0~65535               "	
+		      	 android:layout_alignParentRight = "true"	
+     	 
+		      	 android:id = "@+id/Text1"/>
+
+			<TextView
+			    android:id="@+id/clientText"
+			    android:layout_width="fill_parent"
+			    android:layout_height="wrap_content"
+			    android:layout_alignParentLeft="true"
+			    android:layout_toLeftOf="@+id/text1"
+			    android:text="产品代码"
+			    android:textSize="20sp" />
+		</RelativeLayout>
+		<RelativeLayout 
+	        android:id = "@+id/connectLayout"
+	        android:layout_below="@+id/clientText"
+			android:layout_width="match_parent" 		
+			android:layout_height="wrap_content" 
+			android:orientation="horizontal">		   
+			<EditText
+		         android:layout_width="wrap_content"
+		      	 android:layout_height = "wrap_content" 	
+		      	 android:hint = "0~65535               "	
+		      	 android:layout_alignParentRight = "true"	      	 
+		      	 android:id = "@+id/Text2"/>
+
+			<TextView
+			    android:id="@+id/clientText"
+			    android:layout_width="fill_parent"
+			    android:layout_height="wrap_content"
+			    android:layout_alignParentLeft="true"
+			    android:layout_toLeftOf="@+id/Text2"
+			    android:text="产品名称"
+			    android:textSize="20sp" />
+		</RelativeLayout>
+		<RelativeLayout 
+	        android:id = "@+id/connectLayout"
+	        android:layout_below="@+id/clientText"
+			android:layout_width="match_parent" 		
+			android:layout_height="wrap_content" 
+			android:orientation="horizontal">		   
+			  
+			<EditText
+		         android:layout_width="wrap_content"
+		      	 android:layout_height = "wrap_content" 	
+		      	 android:hint = "100~1000             "	
+		      	 android:layout_alignParentRight = "true"	      	 
+		      	 android:id = "@+id/Text3"/>
+
+			<TextView
+			    android:id="@+id/clientText"
+			    android:layout_width="fill_parent"
+			    android:layout_height="wrap_content"
+			    android:layout_alignParentLeft="true"
+			    android:layout_toLeftOf="@+id/Text3"
+			    android:text="产品版本"
+			    android:textSize="20sp" />
+		</RelativeLayout>
+		<RelativeLayout 
+	        android:id = "@+id/connectLayout"
+	        android:layout_below="@+id/clientText"
+			android:layout_width="match_parent" 		
+			android:layout_height="wrap_content" 
+			android:orientation="horizontal">		   
+			  
+			<EditText
+		         android:layout_width="wrap_content"
+		      	 android:layout_height = "wrap_content" 	
+		      	 android:hint = "0~65535               "	
+		      	 android:layout_alignParentRight = "true"	      	 
+		      	 android:id = "@+id/Text4"/>
+
+			<TextView
+			    android:id="@+id/clientText"
+			    android:layout_width="fill_parent"
+			    android:layout_height="wrap_content"
+			    android:layout_alignParentLeft="true"
+			    android:layout_toLeftOf="@+id/Text4"
+			    android:text="保修期(年)"
+			    android:textSize="20sp" />
+		</RelativeLayout>
+		<RelativeLayout 
+	        android:id = "@+id/connectLayout"
+	        android:layout_below="@+id/clientText"
+			android:layout_width="match_parent" 		
+			android:layout_height="wrap_content" 
+			android:orientation="horizontal">		   
+			  
+			<EditText
+		         android:layout_width="wrap_content"
+		      	 android:layout_height = "wrap_content" 	
+		      	 android:hint = "0~65535               "	
+		      	 android:layout_alignParentRight = "true"	      	 
+		      	 android:id = "@+id/Text5"/>
+
+			<TextView
+			    android:id="@+id/clientText"
+			    android:layout_width="fill_parent"
+			    android:layout_height="wrap_content"
+			    android:layout_alignParentLeft="true"
+			    android:layout_toLeftOf="@+id/Text5"
+			    android:text="保修期(月日)"
+			    android:textSize="20sp" />
+		</RelativeLayout>
+		<RelativeLayout 
+	        android:id = "@+id/connectLayout"
+	        android:layout_below="@+id/clientText"
+			android:layout_width="match_parent" 		
+			android:layout_height="wrap_content" 
+			android:orientation="horizontal">
+		</RelativeLayout>
+		<RelativeLayout 
+	        android:id = "@+id/connectLayout"
+	        android:layout_below="@+id/clientText"
+			android:layout_width="match_parent" 		
+			android:layout_height="wrap_content" 
+			android:orientation="horizontal">
+		</RelativeLayout>
+	   <Button android:id="@+id/butOK"
+				android:layout_width="fill_parent" 
+				android:layout_height="wrap_content" 
+				android:text="确定"/>
+	</LinearLayout>
+</LinearLayout>

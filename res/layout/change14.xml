@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+	<LinearLayout 
+	    android:orientation="vertical"
+	    android:layout_width="fill_parent"
+	    android:layout_height="fill_parent" >
+	    <RelativeLayout 
+	        android:id = "@+id/connectLayout"
+	        android:layout_below="@+id/clientText"
+			android:layout_width="match_parent" 		
+			android:layout_height="wrap_content" 
+			android:orientation="horizontal">
+
+			<TextView
+			    android:id="@+id/clientText"
+			    android:layout_width="fill_parent"
+			    android:layout_height="wrap_content"
+			    android:layout_alignParentLeft="true"
+			    android:layout_toLeftOf="@+id/text1"
+			    android:text="弱磁功能使能"
+			    android:textSize="20sp" />
+			 <RadioGroup
+                android:id="@+id/radioGroup1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                android:orientation="horizontal" >
+
+                <RadioButton
+                    android:id="@+id/radio1"
+                    android:layout_width="94dp"
+                    android:layout_height="wrap_content"
+                    android:text="使能" />
+                <RadioButton
+                android:id="@+id/radio2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_toLeftOf="@+id/radioGroup2"
+                android:checked="true"
+                android:text="无效" />
+
+            </RadioGroup>
+
+		</RelativeLayout>
+		<RelativeLayout 
+	        android:id = "@+id/connectLayout"
+	        android:layout_below="@+id/clientText"
+			android:layout_width="match_parent" 		
+			android:layout_height="wrap_content" 
+			android:orientation="horizontal">
+		</RelativeLayout>
+		<RelativeLayout 
+	        android:id = "@+id/connectLayout"
+	        android:layout_below="@+id/clientText"
+			android:layout_width="match_parent" 		
+			android:layout_height="wrap_content" 
+			android:orientation="horizontal">		   
+			  
+			<EditText
+		         android:layout_width="wrap_content"
+		      	 android:layout_height = "wrap_content" 	
+		      	 android:hint = "10~100                  "	
+		      	 android:layout_alignParentRight = "true"	      	 
+		      	 android:id = "@+id/Text3"/>
+
+			<TextView
+			    android:id="@+id/clientText"
+			    android:layout_width="fill_parent"
+			    android:layout_height="wrap_content"
+			    android:layout_alignParentLeft="true"
+			    android:layout_toLeftOf="@+id/Text3"
+			    android:text="弱磁进入速度比例(%)"
+			    android:textSize="20sp" />
+		</RelativeLayout>
+		<RelativeLayout 
+	        android:id = "@+id/connectLayout"
+	        android:layout_below="@+id/clientText"
+			android:layout_width="match_parent" 		
+			android:layout_height="wrap_content" 
+			android:orientation="horizontal">		   
+			  
+			<EditText
+		         android:layout_width="wrap_content"
+		      	 android:layout_height = "wrap_content" 	
+		      	 android:hint = "10~100                  "	
+		      	 android:layout_alignParentRight = "true"	      	 
+		      	 android:id = "@+id/Text4"/>
+
+			<TextView
+			    android:id="@+id/clientText"
+			    android:layout_width="fill_parent"
+			    android:layout_height="wrap_content"
+			    android:layout_alignParentLeft="true"
+			    android:layout_toLeftOf="@+id/Text4"
+			    android:text="弱磁退出速度比例(%)"
+			    android:textSize="20sp" />
+		</RelativeLayout>
+		<RelativeLayout 
+	        android:id = "@+id/connectLayout"
+	        android:layout_below="@+id/clientText"
+			android:layout_width="match_parent" 		
+			android:layout_height="wrap_content" 
+			android:orientation="horizontal">		   
+			  
+			<EditText
+		         android:layout_width="wrap_content"
+		      	 android:layout_height = "wrap_content" 	
+		      	 android:hint = "10~100                  "	
+		      	 android:layout_alignParentRight = "true"	      	 
+		      	 android:id = "@+id/Text5"/>
+
+			<TextView
+			    android:id="@+id/clientText"
+			    android:layout_width="fill_parent"
+			    android:layout_height="wrap_content"
+			    android:layout_alignParentLeft="true"
+			    android:layout_toLeftOf="@+id/Text5"
+			    android:text="弱磁对大电流(A)"
+			    android:textSize="20sp" />
+		</RelativeLayout>
+		<RelativeLayout 
+	        android:id = "@+id/connectLayout"
+	        android:layout_below="@+id/clientText"
+			android:layout_width="match_parent" 		
+			android:layout_height="wrap_content" 
+			android:orientation="horizontal">		   
+			  
+			<EditText
+		         android:layout_width="wrap_content"
+		      	 android:layout_height = "wrap_content" 	
+		      	 android:hint = "2.0~4.3                  "	
+		      	 android:layout_alignParentRight = "true"	      	 
+		      	 android:id = "@+id/Text6"/>
+
+			<TextView
+			    android:id="@+id/clientText"
+			    android:layout_width="fill_parent"
+			    android:layout_height="wrap_content"
+			    android:layout_alignParentLeft="true"
+			    android:layout_toLeftOf="@+id/Text6"
+			    android:text="弱磁进入转把值(V)"
+			    android:textSize="20sp" />
+		</RelativeLayout>
+		<RelativeLayout 
+	        android:id = "@+id/connectLayout"
+	        android:layout_below="@+id/clientText"
+			android:layout_width="match_parent" 		
+			android:layout_height="wrap_content" 
+			android:orientation="horizontal">
+		</RelativeLayout>
+	   <Button android:id="@+id/butOK"
+				android:layout_width="fill_parent" 
+				android:layout_height="wrap_content" 
+				android:text="确定"/>
+	</LinearLayout>
+</LinearLayout>

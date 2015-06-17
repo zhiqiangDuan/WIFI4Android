@@ -56,8 +56,12 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="手机扮演客户端：" />
-    <ListView
-        android:id="@+id/test"
-        android:layout_width="fill_parent"
-        android:layout_height="match_parent"/>
+     <ExpandableListView 
+         android:id="@+id/list"
+         android:layout_width="fill_parent"
+         android:layout_height="fill_parent"
+         android:cacheColorHint="#00000000"
+         android:listSelector="#00000000" 
+         >
+     </ExpandableListView>
 </LinearLayout>

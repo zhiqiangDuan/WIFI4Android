@@ -51,7 +51,23 @@ public class Sendmsg extends Activity implements OnClickListener{
     private  List<List<String>> childArray;
 	private final String STR_SHAKE_HAND ="55020057";
 	private final String[] SERCH_CMDS = {"5518006D","5519006E","551A006F","551B0070"};
+	private final int ACTIVITY1 = 1;
+	private final int ACTIVITY2 = 2;
+	private final int ACTIVITY3 = 3;
+	private final int ACTIVITY4 = 4;
+	private final int ACTIVITY5 = 5;
+	private final int ACTIVITY6 = 6;
+	private final int ACTIVITY7 = 7;
+	private final int ACTIVITY8 = 8;
+	private final int ACTIVITY9 = 9;
+	private final int ACTIVITY10 = 10;
+	private final int ACTIVITY11 = 11;
+	private final int ACTIVITY12 = 12;
+	private final int ACTIVITY13 = 13;
+	private final int ACTIVITY14 = 14;
+	private final int ACTIVITY15 = 15;
 	private int[][] pages;
+	private byte[][] controlerData;
 	private List<String> tempArray1;
 	private List<String> tempArray2;
 	private List<String> tempArray3;
@@ -102,8 +118,6 @@ public class Sendmsg extends Activity implements OnClickListener{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.sendmsg);
 		//lv_test = (ListView) findViewById(R.id.test);
-		
-		
         mContext = this;
         recvMsg = (TextView)findViewById(R.id.showText);
         changeData = (Button)findViewById(R.id.changeData);
@@ -116,6 +130,7 @@ public class Sendmsg extends Activity implements OnClickListener{
         expandableListView.setOnChildClickListener(childListener);
        // lv_bleList = (ListView) findViewById(R.id.lv_bleList);
 		pages = new int[4][16];
+		controlerData = new byte[4][16];
 		initList();
 		initSocket();
 		motorArgs = new String[3];
@@ -143,67 +158,68 @@ public class Sendmsg extends Activity implements OnClickListener{
 		private void startCildActivity(int parent)
 		{
 			Intent intent = new Intent();
-			
 			switch (parent) {
 			case 0:
 				intent.setClass(Sendmsg.this, Change1.class);
-				startActivity(intent);
+				startActivityForResult(intent, ACTIVITY1);
 				break;
 			case 1:
 				intent.setClass(Sendmsg.this, Change2.class);
-				startActivity(intent);
+				startActivityForResult(intent, ACTIVITY2);
 				break;
 			case 2:
 				intent.setClass(Sendmsg.this, Change3.class);
-				startActivity(intent);
+				startActivityForResult(intent, ACTIVITY3);
 				break;
 			case 3:
 				intent.setClass(Sendmsg.this, Change4.class);
-				startActivity(intent);
+				startActivityForResult(intent, ACTIVITY4);
 				break;
 			case 4:
 				intent.setClass(Sendmsg.this, Change5.class);
-				startActivity(intent);
+				startActivityForResult(intent, ACTIVITY5);
 				break;
 			case 5:
 				intent.setClass(Sendmsg.this, Change6.class);
-				startActivity(intent);
+				startActivityForResult(intent, ACTIVITY6);
 				break;
 			case 6:
 				intent.setClass(Sendmsg.this, Change7.class);
-				startActivity(intent);
+				startActivityForResult(intent, ACTIVITY7);
 				break;
 			case 7:
+				Toast.makeText(getApplicationContext(), "该数据不可修改",
+					     Toast.LENGTH_SHORT).show();
 				intent.setClass(Sendmsg.this, Change8.class);
-				startActivity(intent);
+				startActivityForResult(intent, ACTIVITY8);
 				break;
 			case 8:
 				intent.setClass(Sendmsg.this, Change9.class);
-				startActivity(intent);
+				startActivityForResult(intent, ACTIVITY9);
 				break;
 			case 9:
 				intent.setClass(Sendmsg.this, Change10.class);
-				startActivity(intent);
+				startActivityForResult(intent, ACTIVITY10);
 				break;
 			case 10:
 				intent.setClass(Sendmsg.this, Change11.class);
-				startActivity(intent);
+				startActivityForResult(intent, ACTIVITY11);
 				break;
 			case 11:
 				intent.setClass(Sendmsg.this, Change12.class);
-				startActivity(intent);
+				startActivityForResult(intent, ACTIVITY12);
 				break;
 			case 12:
 				intent.setClass(Sendmsg.this, Change13.class);
-				startActivity(intent);
+				startActivityForResult(intent, ACTIVITY13);
 				break;
 			case 13:
 				intent.setClass(Sendmsg.this, Change14.class);
-				startActivity(intent);
+				startActivityForResult(intent, ACTIVITY14);
 				break;
 			case 14:
 				intent.setClass(Sendmsg.this, Change15.class);
-				startActivity(intent);
+				startActivityForResult(intent, ACTIVITY15);
 				break;
 			default:
 				break;
@@ -369,8 +385,6 @@ public class Sendmsg extends Activity implements OnClickListener{
 			statusThread.start();
 			break;
 		case R.id.searchData:
-			// start the search thread
-			// start the backrun thread
 			progressDialog = ProgressDialog.show(Sendmsg.this, "Read the current data",
 					"Reading,Please wait!");
 			flagShake = false;
@@ -385,16 +399,11 @@ public class Sendmsg extends Activity implements OnClickListener{
 			Intent intent2 = new Intent();
 			intent2.setClass(Sendmsg.this, ChangeData.class);
 			startActivityForResult(intent2, 1);
-			//startActivity(intent2);
 			break;
 		default:
 			break;
 		}
 	} 
-	private String byteToString(byte[] byt) {
-		
-		return null;
-	}
 	private byte setCheckSum(byte[] byt) {
 		int sum = 0;
 		int temp = 0;
@@ -410,15 +419,739 @@ public class Sendmsg extends Activity implements OnClickListener{
 		// TODO Auto-generated method stub
 		super.onDestroy();
 	}
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		resultData = data.getExtras().getString("str");//得到新Activity 关闭后返回的数据
+	protected void onActivityResult(int requestCode, int id, Intent data) {
+		switch (id) {
+		case ACTIVITY1:
+			activityData1(data);
+			break;
+		case ACTIVITY2:
+			activityData2(data);
+			break;
+		case ACTIVITY3:
+			activityData3(data);
+			break;
+		case ACTIVITY4:
+			activityData4(data);
+			break;
+		case ACTIVITY5:
+			activityData5(data);
+			break;
+		case ACTIVITY6:
+			activityData6(data);
+			break;
+		case ACTIVITY7:
+			activityData7(data);
+			break;
+		case ACTIVITY9:
+			activityData9(data);
+			break;
+		case ACTIVITY10:
+			activityData10(data);
+			break;
+		case ACTIVITY11:
+			activityData11(data);
+			break;
+		case ACTIVITY12:
+			activityData12(data);
+			break;
+		case ACTIVITY13:
+			activityData13(data);
+			break;
+		case ACTIVITY14:
+			activityData14(data);
+			break;
+		case ACTIVITY15:
+			activityData15(data);
+			break;
+		default:
+			break;
+		}
+    }
+	private void activityData1(Intent data)
+	{
+		resultData = data.getExtras().getString("str1");//得到新Activity关闭后返回的数据
 		if(resultData != null)
 		{
 			dataString = resultData.split(":"); 
 		}
+		// HALL类型
+		if(dataString[0].equals("0")) //===========这里需要修改============
+		{
+			controlerData[0][4] = 60;
+		}
+		else {
+			controlerData[0][4] = 120;
+		}
+		if(!dataString[1].equals("null"))
+		{
+			int temp = Integer.parseInt(dataString[1]);
+			if(temp >= -180 && temp <= 180)
+			{
+				controlerData[0][5] = (byte)((temp >> 8) & 0xff);
+				controlerData[0][6] = (byte)(temp & 0xff);
+			}
+		}
+		if(!dataString[2].equals("null"))
+		{
+			int temp = Integer.parseInt(dataString[2]);
+			if(temp >= 2 && temp <= 28)
+			{
+				controlerData[0][8] = (byte)(temp & 0xff);
+			}
+		}
+		if(!dataString[3].equals("null"))
+		{
+			int temp = Integer.parseInt(dataString[3]);
+			if(temp >= 100 && temp <= 10000)
+			{
+				controlerData[0][9] = (byte)((temp >> 8) & 0xff);
+				controlerData[0][10] = (byte)(temp & 0xff);
+			}
+		}
+	}
+	private void activityData2(Intent data)
+	{
+		resultData = data.getExtras().getString("str2");//得到新Activity关闭后返回的数据
+		if(resultData != null)
+		{
+			dataString = resultData.split(":"); 
+		}
+		// HALL类型
+		if(!dataString[0].equals("null"))
+		{
+			int temp = Integer.parseInt(dataString[0]);
+			if(temp >= 24 && temp <= 120)
+			{
+				controlerData[0][15] = (byte)((temp >> 8) & 0xff); //H
+				controlerData[0][16] = (byte)(temp & 0xff);//L 
+			}
+		}
+		if(!dataString[1].equals("null"))
+		{
+			int temp = Integer.parseInt(dataString[1]);
+			if(temp >= 24 && temp <= 120)
+			{
+				controlerData[0][17] = (byte)((temp >> 8) & 0xff); //H
+				controlerData[0][18] = (byte)(temp & 0xff);//L 
+			}
+		}
+		if(!dataString[2].equals("null"))
+		{
+			int temp = Integer.parseInt(dataString[2]);
+			if(temp >= 24 && temp <= 120)
+			{
+				controlerData[0][19] = (byte)((temp >> 8) & 0xff); //H
+				controlerData[0][20] = (byte)(temp & 0xff);//L 
+			}
+		}
+		if(!dataString[3].equals("null"))
+		{
+			int temp = Integer.parseInt(dataString[3]);
+			if(temp >= 24 && temp <= 120)
+			{
+				controlerData[0][21] = (byte)((temp >> 8) & 0xff); //H
+				controlerData[0][22] = (byte)(temp & 0xff);//L 
+			}
+		}
+		if(!dataString[4].equals("null"))
+		{
+			int temp = Integer.parseInt(dataString[4]);
+			if(temp >= 1 && temp <= 3)
+			{
+				controlerData[0][23] = (byte)((temp >> 8) & 0xff); //H
+				controlerData[0][24] = (byte)(temp & 0xff);//L 
+			}
+		}
+		if(dataString[5].equals("0")) //===========这里需要修改============
+		{
+			controlerData[0][26] = 0;
+		}
+		else {
+			controlerData[0][26] = 1;
+		}
+		if(!dataString[6].equals("null"))
+		{
+			int temp = Integer.parseInt(dataString[6]);
+			if(temp >= 1 && temp <= 3)
+			{
+				controlerData[0][27] = (byte)((temp >> 8) & 0xff); //H
+				controlerData[0][28] = (byte)(temp & 0xff);//L 
+			}
+		}
+		if(!dataString[7].equals("null"))
+		{
+			int temp = Integer.parseInt(dataString[7]);
+			if(temp >= 24 && temp <= 120)
+			{
+				controlerData[0][29] = (byte)((temp >> 8) & 0xff); //H
+				controlerData[0][30] = (byte)(temp & 0xff);//L 
+			}
+		}
+	}
+	private void activityData3(Intent data)
+	{
+		resultData = data.getExtras().getString("str3");//得到新Activity关闭后返回的数据
+		if(resultData != null)
+		{
+			dataString = resultData.split(":"); 
+		}
+		if(!dataString[0].equals("null"))
+		{
+			int temp = Integer.parseInt(dataString[0]);
+			if(temp >= 100 && temp <= 500)
+			{
+				controlerData[1][3] = (byte)((temp >> 8) & 0xff);
+				controlerData[1][4] = (byte)(temp & 0xff);
+			}
+		}
+		if(!dataString[1].equals("null"))
+		{
+			int temp = Integer.parseInt(dataString[1]);
+			if(temp >= 100 && temp <= 500)
+			{
+				controlerData[1][7] = (byte)((temp >> 8) & 0xff);
+				controlerData[1][8] = (byte)(temp & 0xff);
+			}
+		}
+		if(!dataString[2].equals("null"))
+		{
+			int temp = Integer.parseInt(dataString[2]);
+			if(temp >= 2 && temp <= 10)
+			{
+				controlerData[1][9] = (byte)((temp >> 8) & 0xff);
+				controlerData[1][10] = (byte)(temp & 0xff);
+			}
+		}
+		if(!dataString[3].equals("null"))
+		{
+			int temp = Integer.parseInt(dataString[3]);
+			if(temp >= 100 && temp <= 500)
+			{
+				controlerData[1][11] = (byte)((temp >> 8) & 0xff);
+				controlerData[1][12] = (byte)(temp & 0xff);
+			}
+		}
+		if(!dataString[4].equals("null"))
+		{
+			int temp = Integer.parseInt(dataString[4]);
+			if(temp >= 100 && temp <= 200)
+			{
+				controlerData[1][13] = (byte)((temp >> 8) & 0xff);
+				controlerData[1][14] = (byte)(temp & 0xff);
+			}
+		}
+	}
+	private void activityData4(Intent data)
+	{
+		resultData = data.getExtras().getString("str4");//得到新Activity关闭后返回的数据
+		if(resultData != null)
+		{
+			dataString = resultData.split(":"); 
+		}
+		// HALL类型
+		if(!dataString[0].equals("null"))
+		{
+			int temp = Integer.parseInt(dataString[0]);
+			if(temp >= 10 && temp <= 80)
+			{
+				controlerData[1][15] = (byte)((temp >> 8) & 0xff);
+				controlerData[1][16] = (byte)(temp & 0xff);
+			}
+		}
+		if(!dataString[1].equals("null"))
+		{
+			int temp = Integer.parseInt(dataString[1]);
+			if(temp >= 10 && temp <= 80)
+			{
+				controlerData[1][17] = (byte)((temp >> 8) & 0xff);
+				controlerData[1][18] = (byte)(temp & 0xff);
+			}
+		}
+		if(!dataString[2].equals("null"))
+		{
+			int temp = Integer.parseInt(dataString[2]);
+			if(temp >= 10 && temp <= 120)
+			{
+				controlerData[1][19] = (byte)((temp >> 8) & 0xff);
+				controlerData[1][20] = (byte)(temp & 0xff);
+			}
+		}
+		if(!dataString[3].equals("null"))
+		{
+			int temp = Integer.parseInt(dataString[3]);
+			if(temp >= 10 && temp <= 120)
+			{
+				controlerData[1][21] = (byte)((temp >> 8) & 0xff);
+				controlerData[1][22] = (byte)(temp & 0xff);
+			}
+		}
+		if(!dataString[4].equals("null"))
+		{
+			int temp = Integer.parseInt(dataString[4]);
+			if(temp >= 10 && temp <= 120)
+			{
+				controlerData[1][23] = (byte)((temp >> 8) & 0xff);
+				controlerData[1][24] = (byte)(temp & 0xff);
+			}
+		}
+		if(!dataString[5].equals("null"))
+		{
+			int temp = Integer.parseInt(dataString[5]);
+			if(temp >= 2 && temp <= 10)
+			{
+				controlerData[1][25] = (byte)((temp >> 8) & 0xff);
+				controlerData[1][26] = (byte)(temp & 0xff);
+			}
+		}
+	}
+	private void activityData5(Intent data)
+	{
+		resultData = data.getExtras().getString("str5");//得到新Activity关闭后返回的数据
+		if(resultData != null)
+		{
+			dataString = resultData.split(":"); 
+		}
+		// HALL类型
+		if(dataString[0].equals("0")) 
+		{
+			controlerData[0][32] = 0;
+		}
+		else {
+			controlerData[0][32] = 1;
+		}
+		if(!dataString[1].equals("null"))
+		{
+			int temp = Integer.parseInt(dataString[1]);
+			if(temp >= 1 && temp <= 4)
+			{
+				controlerData[0][33] = (byte)((temp >> 8) & 0xff);
+				controlerData[0][34] = (byte)(temp & 0xff);
+			}
+		}
+	}
+	//===========暂未修改===============
+	private void activityData6(Intent data)
+	{
+		resultData = data.getExtras().getString("str6");//得到新Activity关闭后返回的数据
+		if(resultData != null)
+		{
+			dataString = resultData.split(":"); 
+		}
+		// HALL类型
+		if(dataString[0].equals("0")) 
+		{
+			controlerData[0][4] = 0;
+		}
+		else {
+			controlerData[0][4] = 1;
+		}
 		
-		System.out.println("here!!  "+dataString[0]+" "+dataString[1]+" "+dataString[2]);
-    }
+		if(dataString[1].equals("0")) 
+		{
+			controlerData[0][4] = 60;
+		}
+		else {
+			controlerData[0][4] = 120;
+		}
+		
+		if(!dataString[1].equals("null"))
+		{
+			int temp = Integer.parseInt(dataString[1]);
+			if(temp >= -180 && temp <= 180)
+			{
+				controlerData[0][5] = (byte)((temp >> 8) & 0xff);
+				controlerData[0][6] = (byte)(temp & 0xff);
+			}
+		}
+	}
+	
+	private void activityData7(Intent data)
+	{
+		resultData = data.getExtras().getString("str7");//得到新Activity关闭后返回的数据
+		if(resultData != null)
+		{
+			dataString = resultData.split(":"); 
+		}
+
+		if(!dataString[0].equals("null"))
+		{
+			int temp = Integer.parseInt(dataString[0]);
+			if(temp >= 50 && temp <= 200)
+			{
+				controlerData[2][31] = (byte)((temp >> 8) & 0xff);
+				controlerData[2][32] = (byte)(temp & 0xff);
+			}
+		}
+		if(!dataString[1].equals("null"))
+		{
+			int temp = Integer.parseInt(dataString[1]);
+			if(temp >= 100 && temp <= 1200)
+			{
+				controlerData[2][33] = (byte)((temp >> 8) & 0xff);
+				controlerData[2][34] = (byte)(temp & 0xff);
+			}
+		}
+		
+	}
+	//=====================================
+	private void activityData8(Intent data)
+	{
+		resultData = data.getExtras().getString("str8");//得到新Activity关闭后返回的数据
+		if(resultData != null)
+		{
+			dataString = resultData.split(":"); 
+		}
+
+		if(!dataString[0].equals("null"))
+		{
+			int temp = Integer.parseInt(dataString[0]);
+			if(temp >= 0 && temp <= 65535)
+			{
+				controlerData[0][5] = (byte)((temp >> 8) & 0xff);
+				controlerData[0][6] = (byte)(temp & 0xff);
+			}
+		}
+		if(!dataString[0].equals("null"))
+		{
+			int temp = Integer.parseInt(dataString[0]);
+			if(temp >= 0 && temp <= 65535)
+			{
+				controlerData[0][5] = (byte)((temp >> 8) & 0xff);
+				controlerData[0][6] = (byte)(temp & 0xff);
+			}
+		}if(!dataString[0].equals("null"))
+		{
+			int temp = Integer.parseInt(dataString[0]);
+			if(temp >= 0 && temp <= 65535)
+			{
+				controlerData[0][5] = (byte)((temp >> 8) & 0xff);
+				controlerData[0][6] = (byte)(temp & 0xff);
+			}
+		}
+		if(!dataString[0].equals("null"))
+		{
+			int temp = Integer.parseInt(dataString[0]);
+			if(temp >= 0 && temp <= 65535)
+			{
+				controlerData[0][5] = (byte)((temp >> 8) & 0xff);
+				controlerData[0][6] = (byte)(temp & 0xff);
+			}
+		}
+		if(!dataString[0].equals("null"))
+		{
+			int temp = Integer.parseInt(dataString[0]);
+			if(temp >= 0 && temp <= 65535)
+			{
+				controlerData[0][5] = (byte)((temp >> 8) & 0xff);
+				controlerData[0][6] = (byte)(temp & 0xff);
+			}
+		}
+	}
+	
+	private void activityData9(Intent data)
+	{
+		resultData = data.getExtras().getString("str9");//得到新Activity关闭后返回的数据
+		if(resultData != null)
+		{
+			dataString = resultData.split(":"); 
+		}
+		if(dataString[0].equals("0"))
+		{
+			controlerData[3][4] = 0;
+		}
+		else {
+			controlerData[3][4] = 1;
+		}
+		if(!dataString[1].equals("null"))
+		{
+			int temp = Integer.parseInt(dataString[1]);
+			if(temp >= 30 && temp <= 120)
+			{
+				controlerData[3][5] = (byte)((temp >> 8) & 0xff);
+				controlerData[3][6] = (byte)(temp & 0xff);
+			}
+		}
+		if(!dataString[2].equals("null"))
+		{
+			int temp = Integer.parseInt(dataString[2]);
+			if(temp >= 5 && temp <= 20)
+			{
+				controlerData[3][7] = (byte)((temp >> 8) & 0xff);
+				controlerData[3][8] = (byte)(temp & 0xff);
+			}
+		}
+	}
+	private void activityData10(Intent data)
+	{
+		resultData = data.getExtras().getString("str1");//得到新Activity关闭后返回的数据
+		if(resultData != null)
+		{
+			dataString = resultData.split(":"); 
+		}
+		// HALL类型
+		if(dataString[0].equals("0")) //===========这里需要修改============
+		{
+			controlerData[0][4] = 60;
+		}
+		else {
+			controlerData[0][4] = 120;
+		}
+		if(!dataString[1].equals("null"))
+		{
+			int temp = Integer.parseInt(dataString[1]);
+			if(temp >= 10 && temp <= 100)
+			{
+				controlerData[3][17] = (byte)((temp >> 8) & 0xff);
+				controlerData[3][18] = (byte)(temp & 0xff);
+			}
+		}
+	}
+	
+	private void activityData11(Intent data)
+	{
+		resultData = data.getExtras().getString("str11");//得到新Activity关闭后返回的数据
+		if(resultData != null)
+		{
+			dataString = resultData.split(":"); 
+		}
+		// HALL类型
+		if(dataString[0].equals("0")) //===========这里需要修改============
+		{
+			controlerData[0][4] = 60;
+		}
+		else {
+			controlerData[0][4] = 120;
+		}
+		if(dataString[1].equals("0")) //===========这里需要修改============
+		{
+			controlerData[0][4] = 60;
+		}
+		else {
+			controlerData[0][4] = 120;
+		}
+		if(dataString[2].equals("0")) //===========这里需要修改============
+		{
+			controlerData[0][4] = 60;
+		}
+		else {
+			controlerData[0][4] = 120;
+		}
+		if(!dataString[3].equals("null"))
+		{
+			float temp = Float.parseFloat(dataString[3]);;
+			if(temp >= 2.0 && temp <= 4.3)// 实数 不是这样转换的
+			{
+				//转换成16进制
+				controlerData[3][23] = (byte)(((int)temp >> 8) & 0xff);
+				controlerData[3][24] = (byte)((int)temp & 0xff);
+			}
+		}
+		if(!dataString[4].equals("null"))
+		{
+			int temp = Integer.parseInt(dataString[4]);
+			if(temp >= 20 && temp <= 100)
+			{
+				controlerData[3][25] = (byte)((temp >> 8) & 0xff);
+				controlerData[3][26] = (byte)(temp & 0xff);
+			}
+		}
+		if(!dataString[5].equals("null"))
+		{
+			int temp = Integer.parseInt(dataString[5]);
+			if(temp >= 4 && temp <= 10)
+			{
+				controlerData[3][28] = (byte)(temp & 0xff);
+			}
+		}
+		
+	}
+	private void activityData12(Intent data)
+	{
+		resultData = data.getExtras().getString("str12");//得到新Activity关闭后返回的数据
+		if(resultData != null)
+		{
+			dataString = resultData.split(":"); 
+		}
+		// HALL类型
+		if(dataString[0].equals("0")) //===========这里需要修改============
+		{
+			controlerData[0][4] = 60;
+		}
+		else {
+			controlerData[0][4] = 120;
+		}
+		if(dataString[1].equals("0")) //===========这里需要修改============
+		{
+			controlerData[0][4] = 60;
+		}
+		else {
+			controlerData[0][4] = 120;
+		}
+		if(!dataString[2].equals("null"))
+		{
+			int temp = Integer.parseInt(dataString[2]);
+			if(temp >= 10 && temp <= 100)
+			{
+				controlerData[3][29] = (byte)((temp >> 8) & 0xff);
+				controlerData[3][30] = (byte)(temp & 0xff);
+			}
+		}
+		if(!dataString[3].equals("null"))
+		{
+			int temp = Integer.parseInt(dataString[3]);
+			if(temp >= 10 && temp <= 100)
+			{
+				controlerData[3][31] = (byte)((temp >> 8) & 0xff);
+				controlerData[3][32] = (byte)(temp & 0xff);
+			}
+		}
+		if(!dataString[4].equals("null"))
+		{
+			int temp = Integer.parseInt(dataString[4]);
+			if(temp >= 10 && temp <= 100)
+			{
+				controlerData[3][33] = (byte)((temp >> 8) & 0xff);
+				controlerData[3][34] = (byte)(temp & 0xff);
+			}	 
+		}
+	}
+	
+	private void activityData13(Intent data)
+	{
+		resultData = data.getExtras().getString("str1");//得到新Activity关闭后返回的数据
+		if(resultData != null)
+		{
+			dataString = resultData.split(":"); 
+		}
+		// HALL类型
+		if(dataString[0].equals("0")) //===========这里需要修改============
+		{
+			controlerData[0][4] = 60;
+		}
+		else {
+			controlerData[0][4] = 120;
+		}
+		if(!dataString[1].equals("null"))
+		{
+			int temp = Integer.parseInt(dataString[1]);
+			if(temp >= 10 && temp <= 100)
+			{
+				controlerData[4][3] = (byte)((temp >> 8) & 0xff);
+				controlerData[4][4] = (byte)(temp & 0xff);
+			}
+		}
+		if(!dataString[2].equals("null"))
+		{
+			int temp = Integer.parseInt(dataString[2]);
+			if(temp >= 10 && temp <= 100)
+			{
+				controlerData[4][5] = (byte)((temp >> 8) & 0xff);
+				controlerData[4][6] = (byte)(temp & 0xff);
+			}
+		}
+	}
+	private void activityData14(Intent data)
+	{
+		resultData = data.getExtras().getString("str14");//得到新Activity关闭后返回的数据
+		if(resultData != null)
+		{
+			dataString = resultData.split(":"); 
+		}
+		// HALL类型
+		if(dataString[0].equals("0")) //===========这里需要修改============
+		{
+			controlerData[0][4] = 60;
+		}
+		else {
+			controlerData[0][4] = 120;
+		}
+		if(!dataString[1].equals("null"))
+		{
+			int temp = Integer.parseInt(dataString[1]);
+			if(temp >= 10 && temp <= 100)
+			{
+				controlerData[4][7] = (byte)((temp >> 8) & 0xff);
+				controlerData[4][8] = (byte)(temp & 0xff);
+			}
+		}
+		if(!dataString[2].equals("null"))
+		{
+			int temp = Integer.parseInt(dataString[2]);
+			if(temp >= 10 && temp <= 100)
+			{
+				controlerData[4][9] = (byte)((temp >> 8) & 0xff);
+				controlerData[4][10] = (byte)(temp & 0xff);
+			}
+		}
+		if(!dataString[3].equals("null"))
+		{
+			int temp = Integer.parseInt(dataString[3]);
+			if(temp >= 1 && temp <= 100)
+			{
+				controlerData[4][10] = (byte)((temp >> 8) & 0xff);
+				controlerData[4][11] = (byte)(temp & 0xff);
+			}
+		}
+		if(!dataString[4].equals("null"))//  float
+		{
+			float temp = Float.parseFloat(dataString[4]);
+			int tempInt = (int)((temp*33/48)*(65536/3.3));
+			if(temp >= 2.0 && temp <= 4.3)
+			{
+				controlerData[4][10] = (byte)((tempInt >> 8) & 0xff);
+				controlerData[4][11] = (byte)(tempInt & 0xff);
+			}
+		}
+	}
+	private void activityData15(Intent data)
+	{
+		resultData = data.getExtras().getString("str15");//得到新Activity关闭后返回的数据
+		if(resultData != null)
+		{
+			dataString = resultData.split(":"); 
+		}
+		if(dataString[0].equals("0")) //===========这里需要修改============
+		{
+			controlerData[4][20] = 60;
+		}
+		else {
+			controlerData[4][20] = 120;
+		}
+		if(dataString[1].equals("0")) //===========这里需要修改============
+		{
+			controlerData[4][22] = 60;
+		}
+		else {
+			controlerData[4][22] = 120;
+		}
+		if(!dataString[2].equals("null"))
+		{
+			int temp = Integer.parseInt(dataString[2]);
+			if(temp >= 10 && temp <= 500)
+			{
+				controlerData[4][23] = (byte)((temp >> 8) & 0xff);
+				controlerData[4][24] = (byte)(temp & 0xff);
+			}
+		}
+		if(!dataString[3].equals("null"))
+		{
+			int temp = Integer.parseInt(dataString[3]);
+			if(temp >= 1 && temp <= 60)
+			{
+				controlerData[4][25] = (byte)((temp >> 8) & 0xff);
+				controlerData[4][26] = (byte)(temp & 0xff);
+			}
+		}
+		if(!dataString[4].equals("null"))
+		{
+			int temp = Integer.parseInt(dataString[4]);
+			if(temp >= 120 && temp <= 600)
+			{
+				controlerData[4][27] = (byte)((temp >> 8) & 0xff);
+				controlerData[4][28] = (byte)(temp & 0xff);
+			}
+		}
+	}
 	/*
 	 * 这个里面有两个按钮，连接按钮获取IP与port端口号。 然后打开一个runnable线程
 	 * 此线程先创建一个socket 然后循环读取server的消息。
@@ -437,7 +1170,7 @@ public class Sendmsg extends Activity implements OnClickListener{
 				op.write(dataRecv);
 				if((count = inputStream.read(buffer))> 0)
 				{
-					check = cpoyData(buffer,count);
+					check = copyData(buffer,count);
 					if(checkSum(check))
 					{
 						dataRecv = check;
@@ -454,7 +1187,7 @@ public class Sendmsg extends Activity implements OnClickListener{
 			}
 		}
 	};
-	private void dataToBeSend()
+	private void dataToBeSend()  //这个将来要改成
 	{
 		int temp = 0;
 		int tempH = 0;
@@ -523,7 +1256,7 @@ public class Sendmsg extends Activity implements OnClickListener{
 			{
 				if((count = inputStream.read(buffer))> 0)
 				{
-					check = cpoyData(buffer,count);
+					check = copyData(buffer,count);
 					if(checkSum(check))
 					{
 						
@@ -539,7 +1272,8 @@ public class Sendmsg extends Activity implements OnClickListener{
 					writeData(SERCH_CMDS[i]);  // write the search cmd!
 					if((count = inputStream.read(buffer))> 0)
 					{
-						check = cpoyData(buffer,count);
+						check = copyData(buffer,count);
+						controlerData[i] = copyData(buffer,count);
 						if(checkSum(check))
 						{
 							getDataFromPage(i,check);
@@ -610,9 +1344,7 @@ public class Sendmsg extends Activity implements OnClickListener{
 					return;
 				}
 				count--;
-				System.out.println("count = "+count);
 			}
-			System.out.println("count = "+count);
 			if(count == 0)
 			{
 				snedMessage(1);
@@ -632,7 +1364,7 @@ public class Sendmsg extends Activity implements OnClickListener{
 				{
 					if((count = inputStream.read(buffer))> 0)
 					{
-						check = cpoyData(buffer,count);
+						check = copyData(buffer,count);
 						if(checkSum(check))
 						{
 							flagShake = true;
@@ -647,7 +1379,7 @@ public class Sendmsg extends Activity implements OnClickListener{
 					op.write(dataRecv);
 					if((count = inputStream.read(buffer))> 0)
 					{
-						check = cpoyData(buffer,count);
+						check = copyData(buffer,count);
 						if(checkSum(check))
 						{
 							flagOver = true;
@@ -668,45 +1400,6 @@ public class Sendmsg extends Activity implements OnClickListener{
 				}
 			}
 	};
-	public void listen() throws IOException {  
-        // 轮询访问selector  
-        while (true)
-        {  
-            selector.select();  
-            // 获得selector中选中的项的迭代器  
-            Iterator ite = this.selector.selectedKeys().iterator();  
-            while (ite.hasNext())
-            {  
-                SelectionKey key = (SelectionKey) ite.next();  
-                // 删除已选的key,以防重复处理  
-                ite.remove();  
-                // 连接事件发生  
-                if (key.isConnectable())
-                {  
-                    SocketChannel channel = (SocketChannel)key.channel();  
-                    // 如果正在连接，则完成连接  
-                    if(channel.isConnectionPending())
-                    {  
-                        channel.finishConnect();  
-                          
-                    }  
-                    // 设置成非阻塞  
-                    channel.configureBlocking(false);  
-                    //在这里可以给服务端发送信息哦  
-                    channel.write(ByteBuffer.wrap(new String("向服务端发送了一条信息").getBytes()));  
-                    //在和服务端连接成功之后，为了可以接收到服务端的信息，需要给通道设置读的权限。  
-                    channel.register(this.selector, SelectionKey.OP_READ);  
-                      
-                    // 获得了可读的事件  
-                }
-                else if (key.isReadable())
-                {  
-                	Toast.makeText(mContext, "收到数据！", Toast.LENGTH_SHORT).show();
-                	readFromServer(key);  
-                }  
-            } 
-        }
-	}
 	private boolean readData(byte[] buffer)
 	{
 		int count = 0;
@@ -714,7 +1407,7 @@ public class Sendmsg extends Activity implements OnClickListener{
 		try {
 			if((count = inputStream.read(buffer))> 0)
 			{
-				check = cpoyData(buffer,count);
+				check = copyData(buffer,count);
 				return checkSum(check);
 			}
 		} catch (IOException e) {
@@ -723,18 +1416,6 @@ public class Sendmsg extends Activity implements OnClickListener{
 		}
 		return false;
 	}
-        public void readFromServer(SelectionKey key) throws IOException{  
-            // 服务器可读取消息:得到事件发生的Socket通道  
-            SocketChannel channel = (SocketChannel) key.channel();  
-            // 创建读取的缓冲区  
-            ByteBuffer buffer = ByteBuffer.allocate(10);  
-            channel.read(buffer);  
-            byte[] data = buffer.array();  
-            String msg = new String(data).trim();  
-            System.out.println("服务端收到信息："+msg);  
-            ByteBuffer outBuffer = ByteBuffer.wrap(msg.getBytes());  
-            channel.write(outBuffer);// 将消息回送给客户端  
-        } 
 	Handler mHandler = new Handler()
 	{	
 		
@@ -887,7 +1568,7 @@ public class Sendmsg extends Activity implements OnClickListener{
 		         } 
 		     }).show();//在按键响应事件中显示此对话框  
 	 }
-	 	private byte[] cpoyData(byte[] dataRecv,int length)
+	 	private byte[] copyData(byte[] dataRecv,int length)
 	 	{
 	 		byte[] check = new byte[length];
 			for(int i = 0;i < length;i++) // copy the data to a matched array

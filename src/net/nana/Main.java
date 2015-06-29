@@ -63,11 +63,17 @@ public class Main<DeviceListAdapter> extends Activity implements OnClickListener
 		protected void onResume() {
 			// TODO Auto-generated method stub
 			super.onResume();
-			isConnected = false;
-			Thread connectThread = new Thread(connect);
-			connectThread.start();
-			Thread timerThread = new Thread(timer);
-			timerThread.start();
+				try {
+					mSocketClient.close();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				isConnected = false;
+				Thread connectThread = new Thread(connect);
+				connectThread.start();
+				Thread timerThread = new Thread(timer);
+				timerThread.start();
 		}
 		//static BufferedReader mBufferedReaderServer	= null;
 		//static PrintWriter mPrintWriterServer = null;
@@ -82,7 +88,6 @@ public class Main<DeviceListAdapter> extends Activity implements OnClickListener
         mWifiAdmin = new WifiAdmin(Main.this);
         serialBut = (Button)findViewById(R.id.serial);
         serialBut.setOnClickListener(Main.this);
-        
         tv_QQ = (TextView)findViewById(R.id.textViewQQ2) ;// 复制QQ的内容
 		tv_Number = (TextView)findViewById(R.id.textViewNum2) ;// 复制电话的内容
 		tv_Weixin = (TextView)findViewById(R.id.textViewWeixin2) ;// 复制微信的内容
@@ -93,25 +98,22 @@ public class Main<DeviceListAdapter> extends Activity implements OnClickListener
 		tv_Taobao.setOnClickListener(this);
 		
 		gestureScanner = new GestureDetector(this);
+		mSocketClient = new Socket();
     }
     /**
 	 * 按钮等控件的初始化
 	 */
     private Runnable connect	= new Runnable() 
     {
-
 		@Override
 		public void run() {
 			// TODO Auto-generated method stub
 			String sIP = "192.168.4.1";
 			String sPort = "8080";
 			try 
-			{				
-				//连接服务器
-				//progressDialog = ProgressDialog.show(this, "连接中...",
-				//		"正在连接控制器，请稍后...");
-				mSocketClient = new Socket(sIP, 8080);
-				isConnected = true;
+			{	
+					mSocketClient = new Socket(sIP, 8080);
+					isConnected = true;
 			}
 			catch (Exception e) 
 			{
@@ -134,9 +136,6 @@ public class Main<DeviceListAdapter> extends Activity implements OnClickListener
 				wait10ms();
 				if(isConnected) //收到数据
 				{
-					//System.out.println("Received!");
-					//flagShake = false; 
-					//收到消息，给UI线程发个message
 					break;
 				}
 				count--;

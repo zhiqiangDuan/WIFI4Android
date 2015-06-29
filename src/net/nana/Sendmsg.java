@@ -10,11 +10,13 @@ import java.nio.channels.Selector;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Iterator;  
+import java.util.zip.Checksum;
 
 import java.nio.ByteBuffer;  
 import java.nio.channels.SelectionKey;  
 import java.nio.channels.SocketChannel;  
 
+import android.R.integer;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -267,7 +269,6 @@ public class Sendmsg extends Activity implements OnClickListener{
 		String sPort = "8080";
 		main = new Main();
 		mSocketClient = main.getSocket();
-		selector = main.getSelector();
 		//连接服务器
 		mSocketClient = main.getSocket();
 		//取得输入、输出流
@@ -376,7 +377,7 @@ public class Sendmsg extends Activity implements OnClickListener{
 			//dataRecv[13] = 0;
 			//dataRecv[14] = (byte)(a & 0xff);
 			dataToBeSend();
-			dataRecv[35] = setCheckSum(dataRecv);
+			setChecksum();
 			flagShake = false;
 			flagOver = false;
 			changeThread = new Thread(changeRun);
@@ -404,16 +405,7 @@ public class Sendmsg extends Activity implements OnClickListener{
 			break;
 		}
 	} 
-	private byte setCheckSum(byte[] byt) {
-		int sum = 0;
-		int temp = 0;
-		for(int i = 0;i < byt.length-1;i++)
-		{
-				temp = byt[i] & 0xff;
-				sum +=temp;
-		}
-		return (byte)(sum & 0xff);
-	}
+
 	@Override
 	protected void onDestroy() {
 		// TODO Auto-generated method stub
@@ -1152,42 +1144,57 @@ public class Sendmsg extends Activity implements OnClickListener{
 			}
 		}
 	}
-	/*
-	 * 这个里面有两个按钮，连接按钮获取IP与port端口号。 然后打开一个runnable线程
-	 * 此线程先创建一个socket 然后循环读取server的消息。
-	 * 另一个按钮，只是向server发送数据
-	 * */
 	private Runnable	changeRun	= new Runnable()
 	{
 		int count = 0;
 		byte[] buffer = new byte[256];
 		byte[] check;
 		@Override
-		public void run() {
+		public void run() 
+		{
 			// TODO Auto-generated method stub
 			flagShake = true;
+			setChecksum();
 			try {
-				op.write(dataRecv);
-				if((count = inputStream.read(buffer))> 0)
+				for(int i = 0;i < 4;i++)
 				{
-					check = copyData(buffer,count);
-					if(checkSum(check))
+					op.write(controlerData[i]);
+					if((count = inputStream.read(buffer))> 0)
 					{
-						dataRecv = check;
-						flagOver = true;
-						snedMessage(5);
-					}
-					else {
-						snedMessage(0);
+						check = copyData(buffer,count);
+						if(!checkSum(check)) // 其实这里还需要检验返回状态。到时候记得要处理
+						{
+							snedMessage(0);
+						}
 					}
 				}
-			} catch (IOException e1) {
+			} 
+			catch (IOException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
+			dataRecv = check;
+			flagOver = true;
+			snedMessage(5);
 		}
 	};
-	private void dataToBeSend()  //这个将来要改成
+	private void setChecksum()
+	{
+		int sum = 0;
+		int temp = 0;
+		for(int i = 0;i < 4;i++)
+		{
+			controlerData[i][1] = (byte)(0x28 + i);
+			for(int j = 0;j < controlerData[i].length -1 ;j++)
+			{
+				temp = 0xff & controlerData[i][j];
+				sum+=temp;
+			}
+			controlerData[i][35] =(byte) (sum & 0xff);
+		}
+	}
+	
+	private void dataToBeSend() 
 	{
 		int temp = 0;
 		int tempH = 0;
@@ -1564,6 +1571,7 @@ public class Sendmsg extends Activity implements OnClickListener{
 		  
 		             // TODO Auto-generated method stub  
 		        	// System.out.println("Error!");
+		        	 
 		             finish();  
 		         } 
 		     }).show();//在按键响应事件中显示此对话框  
